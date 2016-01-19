@@ -1,4 +1,4 @@
-<div layout="column" >
+<div layout="column" class="dohw">
     <div flex>
         <p class="left">[진행중인 과제목록]</p>
     </div>
@@ -44,6 +44,10 @@
         <span ng-repeat="hw in hwList">
             <instant hw="hw"></instant>
         </span>
+    </div>
+
+    <div flex>
+        <md-button class="md-raised md-block" ng-click="doHw($event)"> 과제제출 </md-button>
     </div>
 
 </div>

@@ -29,14 +29,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 app.run(function($http, storage, $rootScope, $state) {
     $http.defaults.headers.common.Authorization = storage.get('token');
     $rootScope.token = storage.get('token');
-    //$rootScope.$on('$stateChangeStart', function (event, toState) {
-    //    // 이동할 페이지에 authenticate 값이 있는지 확인해서 라우팅한다.
-    //    if( toState.authenticate ){
-    //        $state.go('index');
-    //        event.preventDefault();
-    //    }
-    //
-    //});
+    $rootScope.$on('$stateChangeStart', function (event, toState) {
+        // 이동할 페이지에 authenticate 값이 있는지 확인해서 라우팅한다.
+        if( toState.authenticate ){
+            $state.go('index');
+            event.preventDefault();
+        }
+
+    });
     $rootScope.logout = function () {
         console.log('logout');
         console.log($rootScope);

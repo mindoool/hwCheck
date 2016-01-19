@@ -1,4 +1,4 @@
-app.controller('HwListController', ['$scope', 'storage','$mdMedia', function ($scope, storage, $mdMedia) {
+app.controller('HwListController', ['$scope', 'storage','$mdMedia', '$mdDialog', function ($scope, storage, $mdMedia, $mdDialog) {
     $scope.hwList = storage.get('hwList') || [];
 
     //서버에서 과제목록을 받아오는 함수
@@ -10,31 +10,17 @@ app.controller('HwListController', ['$scope', 'storage','$mdMedia', function ($s
             });
     };
 
-    $scope.status = '  ';
-    $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-
 
     //제출하기 버튼을 누르면 새로운 창을 띄워 과제를 입력하도록 하는 함수
     $scope.doHw = function(hw) {
-        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
         $mdDialog.show({
             controller: HwContentController,
             templateUrl: 'templates/hw-content.html',
             parent: angular.element(document.body),
             targetEvent: hw,
             clickOutsideToClose:true,
-            fullscreen: useFullScreen
+            fullscreen:true
         })
-            .then(function(answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
-            });
-        $scope.$watch(function() {
-            return $mdMedia('xs') || $mdMedia('sm');
-        }, function(wantsFullScreen) {
-            $scope.customFullscreen = (wantsFullScreen === true);
-        });
     };
 
     function HwContentController($scope, $mdDialog) {
