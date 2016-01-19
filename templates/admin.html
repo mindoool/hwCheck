@@ -1,0 +1,34 @@
+<div layour="column">
+    <div flex>
+        <div layout="row">
+            <div flex="5"></div>
+            <div flex="20">
+                과정명
+                <md-select ng-model="targetCourse">
+                    <md-option ng-repeat="course in courseList">
+                        {{course}}
+                    </md-option>
+                </md-select>
+            </div>
+        </div>
+    </div>
+    <div flex>
+        <div layout="row">
+            <div flex="5"></div>
+            <div flex="50">
+                과제명
+            </div>
+            <div flex="20">
+                기한
+            </div>
+            <div flex="20">
+                상태
+            </div>
+            <div flex="5"></div>
+        </div>
+    </div>
+    <div flex>
+        <md-button class="md-raised md-block" ng-click="getHw($event)"> 결과확인 </md-button>
+    </div>
+
+</div>

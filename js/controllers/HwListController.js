@@ -39,6 +39,9 @@ app.controller('HwListController', ['$scope', 'storage','$mdMedia', '$mdDialog',
             content:""
         };
 
+        $scope.userAnswer='';
+        $scope.answerList = ['맞음', '틀렸는데 고침', '틀렸는데 모름', '모름'];
+
         //과제 입력후 제출하기 버튼을 누르면 서버에 데이터 전송하는 함수
         $scope.submit = function() {
             var hwData = {
@@ -53,6 +56,5 @@ app.controller('HwListController', ['$scope', 'storage','$mdMedia', '$mdDialog',
                 });
         };
     }
-
 
 }]);
