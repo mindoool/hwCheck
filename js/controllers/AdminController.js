@@ -44,6 +44,8 @@ app.controller('AdminController', ['$scope', 'storage','$mdMedia', '$mdDialog','
             content:""
         };
 
+        $scope.items=[];
+
         //$scope.selectedCourse='';
         //$scope.courseList = ['수학1/2', '미적분1', '미적분2', '확률과통계'];
 
