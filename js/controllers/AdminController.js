@@ -1,7 +1,7 @@
-app.controller('AdminController', ['$scope', 'storage','$mdMedia', '$mdDialog', function ($scope, storage, $mdMedia, $mdDialog) {
+app.controller('AdminController', ['$scope', 'storage','$mdMedia', '$mdDialog','$stateParams', function ($scope, storage, $mdMedia, $mdDialog, $stateParams) {
     $scope.hwList = storage.get('hwList') || [];
 
-    $scope.targetCourse=''
+    $scope.targetCourse='';
     $scope.courseList = ['수학1/2', '미적분1', '미적분2', '확률과통계']
 
     //서버에서 과제목록을 받아오는 함수
@@ -12,6 +12,43 @@ app.controller('AdminController', ['$scope', 'storage','$mdMedia', '$mdDialog', 
                 $scope.hwList = response.data.hwList;
             });
     };
+
+    //과제를 출제하기 위해 호출하는 함수
+    $scope.giveHw = function(hw) {
+        $mdDialog.show({
+            controller: HwFormatController,
+            templateUrl: 'templates/hw-format.html',
+            parent: angular.element(document.body),
+            targetEvent: hw,
+            clickOutsideToClose:true,
+            fullscreen:true
+        })
+    };
+
+    function HwFormatController($scope, $mdDialog) {
+        $scope.hide = function() {
+            $mdDialog.hide();
+        };
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+        $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+        };
+
+        //서버에 개별과제를 보내는 http.post 추가되어야 함
+        $scope.hwFormat = {
+            course:"",
+            name:"",
+            date:new Date(),
+            content:""
+        };
+
+        //$scope.selectedCourse='';
+        //$scope.courseList = ['수학1/2', '미적분1', '미적분2', '확률과통계'];
+
+    }
+
 
     //결과 확인을 누르면 개별 결과를 볼 수 있는 함수
     $scope.getHw = function(hw) {
