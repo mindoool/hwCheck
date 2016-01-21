@@ -1,66 +1,68 @@
-<div layout="column">
-    <div flex>
-        <input type="file" file-reader="fileContent"/>
-    </div>
-    <div flex>
-        <div layout="row">
-            <div flex="5"></div>
-            <!--<div flex="25">-->
+<md-dialog flex="70">
+    <div layout="column">
+        <div flex>
+            <input type="file" file-reader="fileContent"/>
+        </div>
+        <div flex>
+            <div layout="row">
+                <div flex="5"></div>
+                <!--<div flex="25">-->
                 <!--<md-input-container>-->
-                    <!--<label>과정</label>-->
-                    <!--<md-select ng-model="hwFormat.course">-->
-                        <!--<md-option ng-repeat="course in courseList">-->
-                            <!--{{course}}-->
-                        <!--</md-option>-->
-                    <!--</md-select>-->
+                <!--<label>과정</label>-->
+                <!--<md-select ng-model="hwFormat.course">-->
+                <!--<md-option ng-repeat="course in courseList">-->
+                <!--{{course}}-->
+                <!--</md-option>-->
+                <!--</md-select>-->
                 <!--</md-input-container>-->
-            <!--</div>-->
-            <div flex="40">
-                <md-input-container>
-                    <label>과제명</label>
-                    <input type="text" ng-model="hwFormat.name" required>
-                </md-input-container>
-            </div>
-            <!--<div flex="25">-->
+                <!--</div>-->
+                <div flex="40">
+                    <md-input-container>
+                        <label>과제명</label>
+                        <input type="text" ng-model="hwFormat.name" required>
+                    </md-input-container>
+                </div>
+                <!--<div flex="25">-->
                 <!--<md-datepicker ng-model="hwFormat.date" md-placeholder="출제일"></md-datepicker>-->
-            <!--</div>-->
+                <!--</div>-->
+                <div flex="5"></div>
+            </div>
+        </div>
+        <div layout="row">
+            <div flex="5"></div>
+            <div flex="90">
+                <ol>
+                    <li ng-repeat="content in fileContent">
+                        <div ng-if="$index==0">
+                            {{content.data[0]}}
+                            {{content.data[1]}}
+                            {{content.data[2]}}
+                        </div>
+                        <div ng-if="$index!=0">
+                            <md-input-container>
+                                <input type="text" value="{{content.data[0]}}" required/>
+                            </md-input-container>
+                            <md-input-container>
+                                <input type="text" value="{{content.data[1]}}" required/>
+                            </md-input-container>
+                            <md-input-container>
+                                <input type="text" value="{{content.data[2]}}" required/>
+                            </md-input-container>
+                        </div>
+                    </li>
+                </ol>
+            </div>
             <div flex="5"></div>
         </div>
-    </div>
-    <div layout="row">
-        <div flex="5"></div>
-        <div flex="90">
-            <ul>
-                <li ng-repeat="content in fileContent">
-                    <div ng-if="$index==0">
-                        {{content.data[0]}}
-                        {{content.data[1]}}
-                        {{content.data[2]}}
-                    </div>
-                    <div ng-if="$index!=0">
-                        <md-input-container>
-                            <input type="text" value="{{content.data[0]}}" required/>
-                        </md-input-container>
-                        <md-input-container>
-                            <input type="text" value="{{content.data[1]}}" required/>
-                        </md-input-container>
-                        <md-input-container>
-                            <input type="text" value="{{content.data[2]}}" required/>
-                        </md-input-container>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div flex="5"></div>
-    </div>
-    <div flex>
-        <div layout="row">
-            <div flex="50">
-                <md-button type="submit" class="md-raised md-block"> Submit</md-button>
-            </div>
-            <div flex="50">
-                <md-button class="md-raised md-block" ng-click="hide()"> Close</md-button>
+        <div flex>
+            <div layout="row">
+                <div flex="50">
+                    <md-button type="submit" class="md-raised md-block"> Submit</md-button>
+                </div>
+                <div flex="50">
+                    <md-button class="md-raised md-block" ng-click="hide()"> Close</md-button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</md-dialog>

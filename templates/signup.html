@@ -1,25 +1,31 @@
 <form name="signup" ng-submit="signUp()">
-    <md-content class="autoScroll">
-        <md-input-container class="md-block">
-            <!-- Use floating placeholder instead of label -->
-            <input ng-model="user.email" type="email" placeholder="Email (required)" ng-required="true">
-        </md-input-container>
-        <md-input-container class="md-block">
-            <!-- Use floating placeholder instead of label -->
-            <input ng-model="user.password" type="password" name="password" placeholder="Password (required)" ng-required="true">
-            <div ng-messages="signup.password.$error">
-                <div ng-message="required">This is required.</div>
-            </div>
-        </md-input-container>
-        <md-input-container class="md-block">
-            <!-- Use floating placeholder instead of label -->
-            <input ng-model="user.passwordCheck" type="password" name="passwordCheck" placeholder="Password Again(required)" ng-required="true">
-            <div ng-messages="signup.passwordcheck.$error">
-                <div ng-message="required">This is required.</div>
-                <div ng-show="user.password !== user.passwordCheck">Does not match.</div>
-            </div>
-        </md-input-container>
-        <md-button type="submit" class="md-raised md-block">Submit</md-button>
-        <md-button ng-click="cancel()" class="md-raised md-block">Close</md-button>
-    </md-content>
+    <mg-dialog flex="70">
+        <md-content class="autoScroll">
+            <md-input-container class="md-block">
+                <!-- Use floating placeholder instead of label -->
+                <input ng-model="user.email" type="email" placeholder="Email (required)" ng-required="true">
+            </md-input-container>
+            <md-input-container class="md-block">
+                <!-- Use floating placeholder instead of label -->
+                <input ng-model="user.password" type="password" name="password" placeholder="Password (required)"
+                       ng-required="true">
+
+                <div ng-messages="signup.password.$error">
+                    <div ng-message="required">This is required.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <!-- Use floating placeholder instead of label -->
+                <input ng-model="user.passwordCheck" type="password" name="passwordCheck"
+                       placeholder="Password Again(required)" ng-required="true">
+
+                <div ng-messages="signup.passwordcheck.$error">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-show="user.password !== user.passwordCheck">Does not match.</div>
+                </div>
+            </md-input-container>
+            <md-button type="submit" class="md-raised md-block">Submit</md-button>
+            <md-button ng-click="cancel()" class="md-raised md-block">Close</md-button>
+        </md-content>
+    </mg-dialog>
 </form>

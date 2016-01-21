@@ -1,4 +1,4 @@
-app.controller('AdminController', ['$scope', 'storage','$mdMedia', '$mdDialog','$stateParams', function ($scope, storage, $mdMedia, $mdDialog, $stateParams) {
+app.controller('AdminController', ['$scope', 'storage','$mdMedia', '$mdDialog','$stateParams', function ($scope, storage, $mdMedia, $mdDialog) {
     $scope.hwList = storage.get('hwList') || [];
 
     $scope.targetCourse='';

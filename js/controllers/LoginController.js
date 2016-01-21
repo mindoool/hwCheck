@@ -1,15 +1,15 @@
-app.controller('LoginController',['$scope','$mdDialog', '$mdMedia', '$http', 'storage','$state','$rootScope', function($scope, ApiService, $mdDialog, $mdMedia, $http, storage, $state, $rootScope ){
+app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', 'storage', '$state', '$rootScope', function ($scope, ApiService, $mdDialog, $mdMedia, $http, storage, $state, $rootScope) {
     $scope.data = [];
 
     $scope.user = {
-        email:"",
-        password:""
+        email: "",
+        password: ""
     };
 
     $scope.login = function () {
         console.log('hi');
         $http.post('http://localhost:12080/api/users/login', $scope.user)
-            .then(function(response) {
+            .then(function (response) {
                 storage.set('token', response.data.token);
                 $scope.$root.token = response.data.token;
                 $http.defaults.headers.common.Authorization = storage.get('token');
@@ -17,55 +17,60 @@ app.controller('LoginController',['$scope','$mdDialog', '$mdMedia', '$http', 'st
             });
     };
 
-    $scope.status = '  ';
-    //$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
 
-    $scope.showAdvanced = function(ev) {
-        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    //과제를 출제하기 위해 호출하는 함수
+    $scope.signupDialog = function (user) {
         $mdDialog.show({
-            controller: DialogController,
+            controller: SignupController,
             templateUrl: 'templates/signup.html',
             parent: angular.element(document.body),
-            targetEvent: ev,
-            clickOutsideToClose:true,
-            fullscreen: useFullScreen
+            targetEvent: user,
+            clickOutsideToClose: true,
+            fullscreen: true
         })
-            .then(function(answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
-            });
-        $scope.$watch(function() {
-            return $mdMedia('xs') || $mdMedia('sm');
-        }, function(wantsFullScreen) {
-            $scope.customFullscreen = (wantsFullScreen === true);
-        });
     };
-    function DialogController($scope, $mdDialog) {
-        $scope.hide = function() {
+
+    function SignupController($scope, $mdDialog) {
+        $scope.hide = function () {
             $mdDialog.hide();
         };
-        $scope.cancel = function() {
+        $scope.cancel = function () {
             $mdDialog.cancel();
         };
-        $scope.answer = function(answer) {
+        $scope.answer = function (answer) {
             $mdDialog.hide(answer);
         };
-        $scope.user = {
-            email:"",
-            password:"",
-            passwordCheck:""
+
+        //서버에 개별과제를 보내는 http.post 추가되어야 함
+        $scope.hwFormat = {
+            course: "",
+            name: "",
+            date: new Date(),
+            content: ""
         };
-        $scope.signUp = function() {
+
+        $scope.items = [];
+
+        $scope.user = {
+            email: "",
+            password: "",
+            passwordCheck: ""
+        };
+
+        $scope.signUp = function () {
             var userData = {
-                email:$scope.user.email,
-                password:$scope.user.password
+                email: $scope.user.email,
+                password: $scope.user.password
             };
-            $http.post('http://localhost:12080/api/users',userData)
-                .then(function(response) {
-                    console.log(response)
+            $http.post('http://localhost:12080/api/users', userData)
+                .then(function (response) {
+                    console.log(response);
                     $scope.hide()
                 });
         };
+
+        //$scope.selectedCourse='';
+        //$scope.courseList = ['수학1/2', '미적분1', '미적분2', '확률과통계'];
+
     }
 }]);
