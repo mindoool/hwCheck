@@ -13,7 +13,7 @@ app.directive('fileReader', function () {
                         var contents = e.target.result;
                         var lines = contents.split(/[\r\n]+/g);
                         var headers = lines[0].split(",");
-                        array.push({"data":headers});
+                        array.push({"headers":headers});
 
                         for(var i = 1; i < lines.length-1; i++) {
                             array.push({"data":lines[i].split(",")});

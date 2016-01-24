@@ -1,19 +1,31 @@
 <div layout="column">
     <div flex>
-        <md-button class="md-raised md-block" ng-click="giveHw($event)"> 과제출제 </md-button>
+        <md-button class="md-raised md-block" ng-click="giveHw($event)"> 과제출제</md-button>
     </div>
     <div flex>
-        <div layout="row">
-            <div flex="5"></div>
-            <div flex="20">
-                과정명
-                <md-select ng-model="targetCourse">
-                    <md-option ng-repeat="course in courseList">
-                        {{course}}
-                    </md-option>
-                </md-select>
+        필터링 기준
+        <form ng-submit="getHwList()">
+            <div layout="row">
+                <div flex="5"></div>
+                <div flex="20">
+                    과정명
+                    <md-select ng-model="targetCourse">
+                        <md-option ng-repeat="course in courseList">
+                            {{course}}
+                        </md-option>
+                    </md-select>
+                </div>
+                <div flex="30">
+                    Start Date
+                    <md-datepicker ng-model="datepicker.date1"></md-datepicker>
+                </div>
+                <div flex="30">
+                    End Date
+                    <md-datepicker ng-model="datepicker.date2"></md-datepicker>
+                </div>
             </div>
-        </div>
+            <md-button class="md-raised md-block" ng-click="getHwList()"> Submit </md-button>
+        </form>
     </div>
     <div flex>
         <div layout="row">
@@ -31,7 +43,13 @@
         </div>
     </div>
     <div flex>
-        <md-button class="md-raised md-block" ng-click="getHw($event)"> 결과확인 </md-button>
+        {{ problemList }}
+        <div ng-repeat="problem in problemList">
+            {{problem.name}}
+        </div>
+    </div>
+    <div flex>
+        <md-button class="md-raised md-block" ng-click="getHw($event)"> 결과확인</md-button>
     </div>
 
 </div>
