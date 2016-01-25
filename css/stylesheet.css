@@ -1,7 +1,47 @@
 .resultNumber {
-    display:inline;
+    display: inline;
 }
 
 .course {
-    width : 20px;
+    width: 20px;
+}
+
+.filterCourse {
+    display: inline-block;
+    width: 150px;
+    margin-left: 10px;
+}
+
+.filter {
+    margin-top: 18px;
+}
+
+.logo {
+    width: 90%;
+    margin-top: 10px;
+}
+
+.username {
+    margin: auto;
+    width: 80%;
+    text-align: center;
+}
+
+.top {
+    margin:10px;
+}
+
+.center {
+    margin: auto;
+    width: 80%;
+    text-align: center;
+    color:white;
+}
+
+.navbar {
+    background-color: skyblue;
+}
+
+.contentBody {
+    margin-left: 10px;
 }

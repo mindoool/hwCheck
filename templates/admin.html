@@ -1,55 +1,49 @@
 <div layout="column">
-    <div flex>
+    <div flex class="top">
         <md-button class="md-raised md-block" ng-click="giveHw($event)"> 과제출제</md-button>
     </div>
+    <br>
+    <md-divider></md-divider>
+    <br>
     <div flex>
-        필터링 기준
         <form ng-submit="getHwList()">
             <div layout="row">
                 <div flex="5"></div>
                 <div flex="20">
-                    과정명
-                    <md-select ng-model="targetCourse">
+                    <span>과정명</span>
+                    <md-select ng-model="targetCourse" class="filterCourse">
                         <md-option ng-repeat="course in courseList">
                             {{course}}
                         </md-option>
                     </md-select>
                 </div>
-                <div flex="30">
-                    Start Date
+                <div flex="25" class="filter">
+                    <span>Start Date</span>
                     <md-datepicker ng-model="datepicker.date1"></md-datepicker>
                 </div>
-                <div flex="30">
-                    End Date
+                <div flex="25" class="filter">
+                    <span>End Date</span>
                     <md-datepicker ng-model="datepicker.date2"></md-datepicker>
                 </div>
+                <div flex="25" class="filter">
+                    <md-button class="md-raised md-block" ng-click="getHwList()"> Submit</md-button>
+                </div>
             </div>
-            <md-button class="md-raised md-block" ng-click="getHwList()"> Submit </md-button>
         </form>
     </div>
-    <div flex>
-        <div layout="row">
-            <div flex="5"></div>
-            <div flex="50">
-                과제명
-            </div>
-            <div flex="20">
-                기한
-            </div>
-            <div flex="20">
-                상태
-            </div>
-            <div flex="5"></div>
-        </div>
-    </div>
-    <div flex>
-        {{ problemList }}
-        <div ng-repeat="problem in problemList">
-            {{problem.name}}
-        </div>
-    </div>
-    <div flex>
-        <md-button class="md-raised md-block" ng-click="getHw($event)"> 결과확인</md-button>
-    </div>
 
+    <div flex>
+        <div ng-repeat="date in dateList">
+            <md-button ng-disabled="true" class="md-raised md-primary"> {{date}}</md-button>
+            <div ng-repeat="group in groupList" layout="row">
+                <div flex="5"></div>
+                <div flex="30">{{group}}</div>
+                <div flex="5"></div>
+                <div flex="30" ng-repeat="problem in problemList"
+                     ng-if="problem.date == date && problem.group.name == group">
+                    {{problem.name}}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
