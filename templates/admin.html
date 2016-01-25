@@ -1,17 +1,19 @@
 <div layout="column">
     <div flex class="top">
-        <md-button class="md-raised md-block" ng-click="giveHw($event)"> 과제출제</md-button>
-    </div>
-    <br>
-    <md-divider></md-divider>
-    <br>
-    <div flex>
+        <md-toolbar class="toolbar-name">
+            <div class="md-toolbar-tools toolbar-text">
+                <h5>
+                    <span>과제 목록</span>
+                </h5>
+                <span flex></span>
+                <md-button class="md-raised give-hw" ng-click="giveHw($event)"> 과제출제</md-button>
+            </div>
+        </md-toolbar>
         <form ng-submit="getHwList()">
             <div layout="row">
                 <div flex="5"></div>
                 <div flex="20">
-                    <span>과정명</span>
-                    <md-select ng-model="targetCourse" class="filterCourse">
+                    <md-select ng-model="targetCourse" class="filterCourse" placeholder="Course">
                         <md-option ng-repeat="course in courseList">
                             {{course}}
                         </md-option>
@@ -44,6 +46,31 @@
                     {{problem.name}}
                 </div>
             </div>
+        </div>
+    </div>
+    <br>
+    <md-divider></md-divider>
+    <br>
+
+    <div flex layout="row">
+        <div flex="45" class="top">
+            <md-toolbar class="toolbar-name">
+                <div class="md-toolbar-tools toolbar-text">
+                    <h5>
+                        <span>과목 관리</span>
+                    </h5>
+                </div>
+            </md-toolbar>
+        </div>
+        <div flex="5"></div>
+        <div flex="45" class="top">
+            <md-toolbar class="toolbar-name">
+                <div class="md-toolbar-tools toolbar-text">
+                    <h5>
+                        <span>반 관리</span>
+                    </h5>
+                </div>
+            </md-toolbar>
         </div>
     </div>
 </div>
