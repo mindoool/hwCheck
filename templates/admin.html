@@ -1,5 +1,12 @@
 <div layout="column">
-    <div flex class="top">
+    <md-toolbar class="toolbar-name">
+        <div class="md-whiteframe-glow-z1 site-content-toolbar">
+            <h3>
+                <span>Admin</span>
+            </h3>
+        </div>
+    </md-toolbar>
+    <div flex="95" class="top">
         <md-toolbar class="toolbar-name">
             <div class="md-toolbar-tools toolbar-text">
                 <h5>
@@ -15,7 +22,7 @@
                 <div flex="20">
                     <md-select ng-model="targetCourse" class="filterCourse" placeholder="Course">
                         <md-option ng-repeat="course in courseList">
-                            {{course}}
+                            {{course.name}}
                         </md-option>
                     </md-select>
                 </div>
@@ -53,7 +60,7 @@
     <br>
 
     <div flex layout="row">
-        <div flex="45" class="top">
+        <div flex="33" class="top">
             <md-toolbar class="toolbar-name">
                 <div class="md-toolbar-tools toolbar-text">
                     <h5>
@@ -61,9 +68,17 @@
                     </h5>
                 </div>
             </md-toolbar>
+            <md-list>
+                <md-list-item ng-repeat="course in courseList">
+                    <span class="text-left"> {{course.name}} </span>
+                    <span flex></span>
+                    <md-button ng-click="editCourse($event, course)">Edit</md-button>
+                    <md-button ng-click="deleteCourse(course.id)">Delete</md-button>
+                </md-list-item>
+                <md-list-item> <md-button class="center" ng-click="createCourse($event)">+</md-button> </md-list-item>
+            </md-list>
         </div>
-        <div flex="5"></div>
-        <div flex="45" class="top">
+        <div flex="33" class="top">
             <md-toolbar class="toolbar-name">
                 <div class="md-toolbar-tools toolbar-text">
                     <h5>
@@ -71,6 +86,16 @@
                     </h5>
                 </div>
             </md-toolbar>
+        </div>
+        <div flex="33" class="top" ng-controller="UserController">
+            <md-toolbar class="toolbar-name">
+                <div class="md-toolbar-tools toolbar-text">
+                    <h5>
+                        <span>학생 관리</span>
+                    </h5>
+                </div>
+            </md-toolbar>
+            <div> {{userList}} </div>
         </div>
     </div>
 </div>

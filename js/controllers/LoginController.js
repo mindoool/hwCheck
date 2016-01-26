@@ -8,7 +8,7 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
 
     $scope.login = function () {
         console.log('hi');
-        $http.post('http://localhost:12080/api/users/login', $scope.user)
+        $http.post(host+'/users/login', $scope.user)
             .then(function (response) {
                 storage.set('token', response.data.token);
                 $scope.$root.token = response.data.token;
@@ -44,75 +44,38 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
         $scope.user = {
             email:"",
             password:"",
-            passwordCheck:""
+            passwordCheck:"",
+            name:"",
+            group:"",
+            groupId:""
         };
+
+        $scope.getGroupId = function(id) {
+            $scope.user.groupId = id
+        };
+
+        $scope.selectedGroup='';
+        $scope.groupList = [];
+
+        $http.get(host+"/courses/0/groups")
+            .then(function (response) {
+                console.log(response);
+                $scope.groupList = response.data.data
+            });
 
         $scope.signup = function () {
             var userData = {
                 email: $scope.user.email,
-                password: $scope.user.password
+                password: $scope.user.password,
+                name: $scope.user.name,
+                groupId: $scope.user.groupId
             };
-            $http.post('http://localhost:12080/api/users', userData)
+            console.log($scope.user.groupId);
+            $http.post(host+'/users', userData)
                 .then(function(response) {
                     console.log(response);
                     $scope.hide()
                 })
         }
     }
-
-
-    //$scope.signupDialog = function (user) {
-    //    $mdDialog.show({
-    //        controller: SignupController,
-    //        templateUrl: 'templates/signup.html',
-    //        parent: angular.element(document.body),
-    //        targetEvent: user,
-    //        clickOutsideToClose: true,
-    //        fullscreen: true
-    //    })
-    //};
-    //
-    //function SignupController($scope, $mdDialog) {
-    //    $scope.hide = function () {
-    //        $mdDialog.hide();
-    //    };
-    //    $scope.cancel = function () {
-    //        $mdDialog.cancel();
-    //    };
-    //    $scope.answer = function (answer) {
-    //        $mdDialog.hide(answer);
-    //    };
-    //
-    //    //서버에 개별과제를 보내는 http.post 추가되어야 함
-    //    $scope.hwFormat = {
-    //        course: "",
-    //        name: "",
-    //        date: new Date(),
-    //        content: ""
-    //    };
-    //
-    //    $scope.items = [];
-    //
-    //    $scope.user = {
-    //        email: "",
-    //        password: "",
-    //        passwordCheck: ""
-    //    };
-    //
-    //    $scope.signUp = function () {
-    //        var userData = {
-    //            email: $scope.user.email,
-    //            password: $scope.user.password
-    //        };
-    //        $http.post('http://localhost:12080/api/users', userData)
-    //            .then(function (response) {
-    //                console.log(response);
-    //                $scope.hide()
-    //            });
-    //    };
-    //
-    //    //$scope.selectedCourse='';
-    //    //$scope.courseList = ['수학1/2', '미적분1', '미적분2', '확률과통계'];
-    //
-    //}
 }]);

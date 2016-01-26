@@ -24,6 +24,22 @@
                     <div ng-show="user.password !== user.passwordCheck">Does not match.</div>
                 </div>
             </md-input-container>
+            <md-input-container class="md-block">
+                <!-- Use floating placeholder instead of label -->
+                <input ng-model="user.name" type="text" name="name"
+                       placeholder="Name(required)" ng-required="true">
+
+                <div ng-messages="signup.name.$error">
+                    <div ng-message="required">This is required.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <md-select ng-model="group" placeholder="Group">
+                    <md-option ng-repeat="group in groupList">
+                        <span ng-click="getGroupId(group.id)">{{group.name}}</span>
+                    </md-option>
+                </md-select>
+            </md-input-container>
             <md-button type="submit" class="md-raised md-block">Submit</md-button>
             <md-button ng-click="cancel()" class="md-raised md-block">Close</md-button>
         </md-content>
