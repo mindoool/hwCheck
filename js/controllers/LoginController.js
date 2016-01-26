@@ -46,13 +46,13 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
             password:"",
             passwordCheck:"",
             name:"",
-            group:"",
             groupId:""
         };
 
-        $scope.getGroupId = function(id) {
-            $scope.user.groupId = id
-        };
+        //$scope.getGroupId = function(id) {
+        //    console.log(id);
+        //    $scope.user.groupId = id
+        //};
 
         $scope.selectedGroup='';
         $scope.groupList = [];

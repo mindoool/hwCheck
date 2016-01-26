@@ -34,9 +34,9 @@
                 </div>
             </md-input-container>
             <md-input-container class="md-block">
-                <md-select ng-model="group" placeholder="Group">
-                    <md-option ng-repeat="group in groupList">
-                        <span ng-click="getGroupId(group.id)">{{group.name}}</span>
+                <md-select ng-model="user.groupId" placeholder="Group">
+                    <md-option ng-repeat="group in groupList" value="{{group.id}}">
+                        <span>{{group.name}}</span>
                     </md-option>
                 </md-select>
             </md-input-container>
