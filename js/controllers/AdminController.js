@@ -3,138 +3,63 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
     //문제목록 불러올 때 필터링 기준 - course 기준
 
     $scope.courseList = [];
-    $scope.targetCourse = "";
+    $scope.groupList = [];
+    //$scope.selectedGroupList = $scope.selectedCourse.groups;
 
-    //course 불러오기
-    $scope.getCourse = function () {
-        $http.get(host+"/courses")
-            .then(function (response) {
-                console.log(response);
-                $scope.courseList = response.data.data
-            });
-    };
-
-    $scope.getCourse();
+    $scope.targetCourse = null;
+    //$scope.selectedCourse = $scope.dummyObj[$scope.targetCourse];
+    $scope.targetGroup = 0;
 
 
-    //과정 생성하는 함수
-    $scope.createCourse = function (course) {
-        $mdDialog.show({
-            controller: CourseController,
-            templateUrl: 'templates/create-course.html',
-            parent: angular.element(document.body),
-            targetEvent: course,
-            clickOutsideToClose: true,
-            fullscreen: true,
-            scope:$scope,
-            course: course
-        })
-    };
 
-    function CourseController($scope, $mdDialog, course) {
-        $scope.hide = function () {
-            $mdDialog.hide();
-        };
-        $scope.cancel = function () {
-            $mdDialog.cancel();
-        };
-        $scope.answer = function (answer) {
-            $mdDialog.hide(answer);
-        };
+    //group 불러오기
+    $http.get(host + "/courses/0/groups")
+        .then(function (response) {
+            console.log(response);
+            $scope.dummyObj = {};
+            $scope.groupList = response.data.data;
+            for (var i = 0; i < $scope.groupList.length; i++) {
+                var course = $scope.groupList[i].course;
 
-        //서버로 부터 개별과제 받아오는 http.get이 추가되어야 함
-        $scope.course = {
-            name:""
-        };
-
-        $scope.currentCourse = {
-            name:course.name
-        };
-
-        $scope.makeCourse = function () {
-            var courseData = {
-                name: $scope.course.name
-            };
-            $http.post(host+'/courses', courseData)
-                .then(function(response) {
-                    console.log(response);
-                    $scope.cancel();
-                    $scope.getCourse()
-                })
-        };
-
-        $scope.editCourse = function () {
-            var courseData = {
-                name: $scope.currentCourse.name
-            };
-            $http.put(host+"/courses/"+course.id, courseData)
-                .then(function(response) {
-                    console.log(response);
-                    $scope.cancel();
-                    $scope.getCourse()
-                });
-        }
-    }
-
-
-    //과정 수정하는 함수
-    $scope.editCourse = function (event, course) {
-        $mdDialog.show({
-            controller: CourseController,
-            templateUrl: 'templates/edit-course.html',
-            parent: angular.element(document.body),
-            targetEvent: event,
-            clickOutsideToClose: true,
-            fullscreen: true,
-            scope:$scope,
-            locals: {
-                course: course
+                if (typeof $scope.dummyObj[course.id]=="undefined") {
+                    course.groups = [$scope.groupList[i]];
+                    $scope.courseList.push(course);
+                    $scope.dummyObj[course.id] = course;
+                } else {
+                    $scope.dummyObj[course.id].groups.push($scope.groupList[i]);
+                }
             }
-        })
-    };
-
-
-    //과정 삭제
-    $scope.deleteCourse = function(id) {
-        console.log('delete');
-        $http.delete(host+"/courses/"+id)
-            .then(function (response) {
-                console.log(response);
-                $scope.getCourse()
-            });
-    };
-
+            console.log($scope.dummyObj);
+        });
 
     //문제목록 불러오는 거
     $scope.datepicker = {
-        "date1":new Date(),
-        "date2":new Date()
+        "date1": new Date(),
+        "date2": new Date()
     };
-
-    $scope.dateList = [];
-    $scope.groupList = [];
 
     $scope.getHwList = function () {
         var params = {
-            "date1":$filter('date')(new Date($scope.datepicker.date1), 'yyyy-MM-dd'),
-            "date2":$filter('date')(new Date($scope.datepicker.date2), 'yyyy-MM-dd'),
-            "group":$scope.targetCourse.trim()
+            "date1": $filter('date')(new Date($scope.datepicker.date1), 'yyyy-MM-dd'),
+            "date2": $filter('date')(new Date($scope.datepicker.date2), 'yyyy-MM-dd'),
         };
-        $http.get(host+"/problems", {params: params})
+        $http.get(host + "/groups/" + $scope.targetGroup + "/problems", {params: params})
             .then(function (response) {
+                $scope.dateList = [];
+                $scope.problemGroupList = [];
                 console.log(response.data.data);
                 console.log($scope.datepicker.date2);
                 console.log(new Date($scope.datepicker.date2));
                 console.log(params);
                 $scope.problemList = response.data.data;
-                for(var i = 0; i < $scope.problemList.length; i++) {
-                    if($scope.dateList.indexOf($scope.problemList[i].date)<0) {
+                for (var i = 0; i < $scope.problemList.length; i++) {
+                    if ($scope.dateList.indexOf($scope.problemList[i].date) < 0) {
                         $scope.dateList.push($scope.problemList[i].date);
                     }
                 }
-                for(var i = 0; i < $scope.problemList.length; i++) {
-                    if($scope.groupList.indexOf($scope.problemList[i].group.name)<0) {
-                        $scope.groupList.push($scope.problemList[i].group.name);
+                for (var i = 0; i < $scope.problemList.length; i++) {
+                    if ($scope.problemGroupList.indexOf($scope.problemList[i].group.name) < 0) {
+                        $scope.problemGroupList.push($scope.problemList[i].group.name);
                     }
                 }
             });
@@ -173,15 +98,15 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
 
         $scope.fileContent = null;
 
-        $scope.selectedCourse='';
+        $scope.selectedCourse = '';
         $scope.courseList = ['수학1/2', '미적분1', '미적분2', '확률과통계'];
 
         $scope.giveHwSubmit = function () {
             var content = {
                 content: $scope.fileContent
             };
-            $http.post(host+'/problems', content)
-                .then(function(response) {
+            $http.post(host + '/problems', content)
+                .then(function (response) {
                     $scope.hide()
                 })
         };

@@ -18,23 +18,30 @@
         </md-toolbar>
         <form ng-submit="getHwList()">
             <div layout="row">
-                <div flex="5"></div>
                 <div flex="20">
-                    <md-select ng-model="targetCourse" class="filterCourse" placeholder="Course">
-                        <md-option ng-repeat="course in courseList">
+                    <md-select ng-model="targetCourse" class="filterCourse" placeholder="과정선택">
+                        <md-option ng-repeat="course in courseList" value="{{course.id}}" ng-click="selectedCourse=1">
                             {{course.name}}
                         </md-option>
                     </md-select>
+                    {{selectedCourse}}
                 </div>
-                <div flex="25" class="filter">
+                <div flex="20">
+                    <md-select ng-model="targetGroup" class="filterCourse" placeholder="반선택">
+                        <md-option ng-repeat="group in selectedCourse.groups" value="{{group.id}}">
+                            {{group.name}}
+                        </md-option>
+                    </md-select>
+                </div>
+                <div flex="20" class="filter">
                     <span>Start Date</span>
                     <md-datepicker ng-model="datepicker.date1"></md-datepicker>
                 </div>
-                <div flex="25" class="filter">
+                <div flex="20" class="filter">
                     <span>End Date</span>
                     <md-datepicker ng-model="datepicker.date2"></md-datepicker>
                 </div>
-                <div flex="25" class="filter">
+                <div flex="20" class="filter">
                     <md-button class="md-raised md-block" ng-click="getHwList()"> Submit</md-button>
                 </div>
             </div>
@@ -44,7 +51,7 @@
     <div flex>
         <div ng-repeat="date in dateList">
             <md-button ng-disabled="true" class="md-raised md-primary"> {{date}}</md-button>
-            <div ng-repeat="group in groupList" layout="row">
+            <div ng-repeat="group in problemGroupList" layout="row">
                 <div flex="5"></div>
                 <div flex="30">{{group}}</div>
                 <div flex="5"></div>
@@ -60,7 +67,7 @@
     <br>
 
     <div flex layout="row">
-        <div flex="33" class="top">
+        <div flex="33" class="top" ng-controller="CourseController">
             <md-toolbar class="toolbar-name">
                 <div class="md-toolbar-tools toolbar-text">
                     <h5>
