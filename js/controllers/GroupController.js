@@ -4,7 +4,7 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
     $scope.groupList = [];
 
     $scope.getGroup = function() {
-        $http.get(host + "/courses/0/groups")
+        $http.get(host + "/courses/0/groups", {cache: true})
             .then(function (response) {
                 console.log(response);
                 $scope.groupList = response.data.data;
@@ -47,7 +47,7 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
         $scope.currentGroup = group;
         console.log(group);
 
-        $http.get(host + "/courses")
+        $http.get(host + "/courses", {cache: true})
             .then(function (response) {
                 console.log(response);
                 $scope.courseList = response.data.data;

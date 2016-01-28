@@ -12,7 +12,7 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
 
 
     //group 불러오기
-    $http.get(host + "/courses/0/groups")
+    $http.get(host + "/courses/0/groups", {cache: true})
         .then(function (response) {
             console.log(response);
             $scope.groupList = response.data.data;
@@ -40,7 +40,7 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
             "date1": $filter('date')(new Date($scope.datepicker.date1), 'yyyy-MM-dd'),
             "date2": $filter('date')(new Date($scope.datepicker.date2), 'yyyy-MM-dd'),
         };
-        $http.get(host + "/groups/" + $scope.targetGroup + "/problems", {params: params})
+        $http.get(host + "/groups/" + $scope.targetGroup + "/problems", {params: params}, {cache: true})
             .then(function (response) {
                 $scope.dateList = [];
                 $scope.problemGroupList = [];

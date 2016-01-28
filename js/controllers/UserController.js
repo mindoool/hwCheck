@@ -6,7 +6,7 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
 
     //유저목록 불러오기
     $scope.getUser = function () {
-        $http.get(host+"/users")
+        $http.get(host+"/users", {cache: true})
             .then(function (response) {
                 console.log(response);
                 $scope.userList = response.data.data
@@ -15,6 +15,21 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
 
     $scope.getUser();
 
+    $scope.userGroupList = [];
+
+    $scope.getUserGroupList = function () {
+        var params = {
+            userId:0,
+            groupId:0
+        };
+        $http.get(host+"/user-group-relations", {params: params}, {cache: true})
+            .then(function(response) {
+                console.log(response);
+                $scope.userGroupList = response.data.data;
+            });
+    };
+
+    $scope.getUserGroupList();
 
     //과정 생성하는 함수
     $scope.createCourse = function (course) {
