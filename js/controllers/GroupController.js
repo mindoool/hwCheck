@@ -1,36 +1,33 @@
-app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', '$http', '$filter', function ($scope, storage, $mdMedia, $mdDialog, $http, $filter) {
+app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog', '$http', function ($scope, storage, $mdMedia, $mdDialog, $http) {
+    //과정 생성하는 함수
 
-    //문제목록 불러올 때 필터링 기준 - course 기준
+    $scope.groupList = [];
 
-    $scope.userList = [];
-
-    //유저목록 불러오기
-    $scope.getUser = function () {
-        $http.get(host+"/users")
+    $scope.getGroup = function() {
+        $http.get(host + "/courses/0/groups")
             .then(function (response) {
                 console.log(response);
-                $scope.userList = response.data.data
+                $scope.groupList = response.data.data;
             });
     };
 
-    $scope.getUser();
+    $scope.getGroup();
 
-
-    //과정 생성하는 함수
-    $scope.createCourse = function (course) {
+    $scope.createGroupDialog = function (ev) {
         $mdDialog.show({
-            controller: CourseController,
-            templateUrl: 'templates/create-course.html',
+            controller: GroupDialogController,
+            templateUrl: 'templates/create-group.html',
             parent: angular.element(document.body),
-            targetEvent: course,
+            targetEvent: ev,
             clickOutsideToClose: true,
             fullscreen: true,
             scope:$scope,
-            course: course
+            preserveScope : true,
+            group: ev
         })
     };
 
-    function CourseController($scope, $mdDialog, course) {
+    function GroupDialogController($scope, $mdDialog, group) {
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -42,23 +39,29 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
         };
 
         //서버로 부터 개별과제 받아오는 http.get이 추가되어야 함
-        $scope.course = {
-            name:""
+        $scope.group = {
+            name:"",
+            courseId:""
         };
 
-        $scope.currentCourse = {
-            name:course.name
-        };
+        $scope.currentGroup = group;
+        console.log(group);
 
-        $scope.makeCourse = function () {
-            var courseData = {
-                name: $scope.course.name
+        $http.get(host + "/courses")
+            .then(function (response) {
+                console.log(response);
+                $scope.courseList = response.data.data;
+            });
+
+        $scope.createGroup = function () {
+            var groupData = {
+                name: $scope.group.name
             };
-            $http.post(host+'/courses', courseData)
+            $http.post(host+'/courses/'+$scope.group.courseId+'/groups', groupData)
                 .then(function(response) {
                     console.log(response);
+                    $scope.getGroup();
                     $scope.hide();
-                    $scope.getCourse()
                 })
         };
 
@@ -69,25 +72,26 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
             $http.put(host+"/courses/"+course.id, courseData)
                 .then(function(response) {
                     console.log(response);
+                    $scope.getCourse();
                     $scope.hide();
-                    $scope.getCourse()
                 });
         }
     }
 
 
     //과정 수정하는 함수
-    $scope.editCourse = function (event, course) {
+    $scope.editGroupDialog = function (event, group) {
         $mdDialog.show({
-            controller: CourseController,
-            templateUrl: 'templates/edit-course.html',
+            controller: GroupDialogController,
+            templateUrl: 'templates/edit-group.html',
             parent: angular.element(document.body),
             targetEvent: event,
             clickOutsideToClose: true,
             fullscreen: true,
             scope:$scope,
+            preserveScope : true,
             locals: {
-                course: course
+                group: group
             }
         })
     };

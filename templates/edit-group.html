@@ -1,11 +1,10 @@
 <md-dialog flex="30">
-    <form ng-submit="createCourse()">
+    <form name="editGroupForm" ng-submit="editGroup()">
         <md-content class="autoScroll">
             <md-input-container class="md-block">
-                <input ng-model="course.name" type="text" placeholder="과정명" ng-required="true">
-                <div ng-messages="makeCourse.name.$error">
+                <input ng-model="currentGroup.name" type="text" placeholder="currentGroup.name" ng-required="true">
+                <div ng-messages="editGroupFrom.name.$error">
                     <div ng-message="required">This is required.</div>
-                    <div ng-show="user.password !== user.passwordCheck">Does not match.</div>
                 </div>
             </md-input-container>
             <md-button type="submit" class="md-raised md-block">Submit</md-button>

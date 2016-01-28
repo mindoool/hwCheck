@@ -2,28 +2,25 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
 
     //문제목록 불러올 때 필터링 기준 - course 기준
 
-    $scope.courseList = [];
     $scope.groupList = [];
     //$scope.selectedGroupList = $scope.selectedCourse.groups;
 
-    $scope.targetCourse = null;
-    //$scope.selectedCourse = $scope.dummyObj[$scope.targetCourse];
+    $scope.targetCourse = "".trim();
+    $scope.selectedCourse = null;
     $scope.targetGroup = 0;
-
+    $scope.dummyObj = {};
 
 
     //group 불러오기
     $http.get(host + "/courses/0/groups")
         .then(function (response) {
             console.log(response);
-            $scope.dummyObj = {};
             $scope.groupList = response.data.data;
             for (var i = 0; i < $scope.groupList.length; i++) {
                 var course = $scope.groupList[i].course;
 
                 if (typeof $scope.dummyObj[course.id]=="undefined") {
                     course.groups = [$scope.groupList[i]];
-                    $scope.courseList.push(course);
                     $scope.dummyObj[course.id] = course;
                 } else {
                     $scope.dummyObj[course.id].groups.push($scope.groupList[i]);
@@ -98,16 +95,15 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
 
         $scope.fileContent = null;
 
-        $scope.selectedCourse = '';
-        $scope.courseList = ['수학1/2', '미적분1', '미적분2', '확률과통계'];
-
         $scope.giveHwSubmit = function () {
             var content = {
                 content: $scope.fileContent
             };
+            console.log($scope.fileContent);
             $http.post(host + '/problems', content)
                 .then(function (response) {
-                    $scope.hide()
+                    $scope.hide();
+                    console.log(response)
                 })
         };
 

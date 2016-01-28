@@ -73,3 +73,7 @@
 .text-left {
     margin-left: 10px;
 }
+
+.md-button {
+    min-width: 40px;
+}

@@ -13,7 +13,7 @@ app.controller('CourseController', ['$scope', 'storage', '$mdMedia', '$mdDialog'
 
     $scope.getCourse();
 
-    $scope.createCourse = function (course) {
+    $scope.createCourseDialog = function (course) {
         $mdDialog.show({
             controller: CourseDialogController,
             templateUrl: 'templates/create-course.html',
@@ -22,6 +22,7 @@ app.controller('CourseController', ['$scope', 'storage', '$mdMedia', '$mdDialog'
             clickOutsideToClose: true,
             fullscreen: true,
             scope:$scope,
+            preserveScope : true,
             course: course
         })
     };
@@ -46,7 +47,7 @@ app.controller('CourseController', ['$scope', 'storage', '$mdMedia', '$mdDialog'
             name:course.name
         };
 
-        $scope.makeCourse = function () {
+        $scope.createCourse = function () {
             var courseData = {
                 name: $scope.course.name
             };
@@ -66,14 +67,14 @@ app.controller('CourseController', ['$scope', 'storage', '$mdMedia', '$mdDialog'
                 .then(function(response) {
                     console.log(response);
                     $scope.getCourse();
-                    $scope.hide();
+                    $scope.cancel();
                 });
         }
     }
 
 
     //과정 수정하는 함수
-    $scope.editCourse = function (event, course) {
+    $scope.editCourseDialog = function (event, course) {
         $mdDialog.show({
             controller: CourseDialogController,
             templateUrl: 'templates/edit-course.html',
@@ -82,6 +83,7 @@ app.controller('CourseController', ['$scope', 'storage', '$mdMedia', '$mdDialog'
             clickOutsideToClose: true,
             fullscreen: true,
             scope:$scope,
+            preserveScope : true,
             locals: {
                 course: course
             }
