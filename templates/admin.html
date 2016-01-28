@@ -19,17 +19,15 @@
         <form ng-submit="getHwList()">
             <div layout="row">
                 <div flex="20">
-                    <md-select ng-model="targetCourse" class="filterCourse" placeholder="과정선택">
-                        <md-option ng-repeat="(key, value) in dummyObj" ng-model="targetCourse"
-                                   ng-change="selectedCourse=value">
+                    <md-select ng-model="selectedCourse" class="filterCourse" placeholder="과정선택">
+                        <md-option ng-repeat="(key, value) in dummyObj" ng-value="value">
                             {{value.name}}
                         </md-option>
                     </md-select>
-                    {{selectedCourse}}
                 </div>
                 <div flex="20">
                     <md-select ng-model="targetGroup" class="filterCourse" placeholder="반선택">
-                        <md-option ng-repeat="group in groupList" value="{{group.id}}">
+                        <md-option ng-repeat="group in selectedCourse.groups" value="{{group.id}}">
                             {{group.name}}
                         </md-option>
                     </md-select>
@@ -68,7 +66,7 @@
     <br>
 
     <div flex layout="row">
-        <div flex="33" class="top" ng-controller="CourseController">
+        <div flex="25" class="top" ng-controller="CourseController">
             <md-toolbar class="toolbar-name">
                 <div class="md-toolbar-tools toolbar-text">
                     <h5>
@@ -77,18 +75,24 @@
                 </div>
             </md-toolbar>
             <md-list>
-                <md-list-item ng-repeat="course in courseList">
-                    <span class="text-left"> {{course.name}} </span>
-                    <span flex></span>
-                    <md-button ng-click="editCourseDialog($event, course)">Edit</md-button>
-                    <md-button ng-click="deleteCourse(course.id)">Delete</md-button>
+                <md-list-item layout="row">
+                    <span flex="25">과정명</span>
+                    <span flex="50"></span>
+                    <span flex="25">편집</span>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item ng-repeat="course in courseList" layout="row">
+                    <span flex="35" class="text-left"> {{course.name}} </span>
+                    <span flex="10"></span>
+                    <md-button flex="25" ng-click="editCourseDialog($event, course)">Edit</md-button>
+                    <md-button flex="30" ng-click="deleteCourse(course.id)">Delete</md-button>
                 </md-list-item>
                 <md-list-item>
                     <md-button class="center" ng-click="createCourseDialog($event)">+</md-button>
                 </md-list-item>
             </md-list>
         </div>
-        <div flex="33" class="top" ng-controller="GroupController">
+        <div flex="40" class="top" ng-controller="GroupController">
             <md-toolbar class="toolbar-name">
                 <div class="md-toolbar-tools toolbar-text">
                     <h5>
@@ -100,21 +104,22 @@
                 <md-list-item layout="row">
                     <span flex="25">반명</span>
                     <span flex="25">과정명</span>
+                    <span flex="25"></span>
+                    <span flex="25">편집</span>
                 </md-list-item>
                 <md-divider></md-divider>
-                <md-list-item ng-repeat="group in groupList">
-                    <span class="text-left"> {{group.name}} </span>
-                    <span class="text-left"> {{group.course.name}}</span>
-                    <span flex></span>
-                    <md-button ng-click="editGroupDialog($event, group)">Edit</md-button>
-                    <md-button ng-click="deleteGroup(course.id)">Delete</md-button>
+                <md-list-item ng-repeat="group in groupList" layout="row">
+                    <span flex="25" class="text-left"> {{group.name}} </span>
+                    <span flex="25" class="text-left"> {{group.course.name}}</span>
+                    <md-button flex="25" ng-click="editGroupDialog($event, group)">Edit</md-button>
+                    <md-button flex="25" ng-click="deleteGroup(course.id)">Delete</md-button>
                 </md-list-item>
                 <md-list-item>
                     <md-button class="center" ng-click="createGroupDialog($event)">+</md-button>
                 </md-list-item>
             </md-list>
         </div>
-        <div flex="33" class="top" ng-controller="UserController">
+        <div flex="35" class="top" ng-controller="UserController">
             <md-toolbar class="toolbar-name">
                 <div class="md-toolbar-tools toolbar-text">
                     <h5>
