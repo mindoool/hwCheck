@@ -127,15 +127,45 @@
                     </h5>
                 </div>
             </md-toolbar>
-            {{userList}}
-            {{userGroupList}}
             <md-list>
-                <md-list-item ng-repeat="user in userList">
-                    <span class="text-left"> {{user.name}} </span>
+                <md-list-item layout="row">
+                    <span flex="20">이름</span>
+                    <span flex="20">과정명</span>
+                    <span flex="20">반명</span>
+                    <span flex="20"></span>
+                    <span flex="20">편집</span>
+                </md-list-item>
+                <md-divider></md-divider>
+                <md-list-item ng-repeat="userGroup in userGroupList">
+                    <span class="text-left"> {{userGroup.user.name}} </span>
+                    <span class="text-left"> {{userGroup.course.name}} </span>
+                    <span class="text-left"> {{userGroup.group.name}} </span>
                     <span flex></span>
                     <md-button ng-click="editCourse($event, course)">Edit</md-button>
                     <md-button ng-click="deleteCourse(course.id)">Delete</md-button>
                 </md-list-item>
+            </md-list>
+            <md-list>
+                <md-list-item ng-repeat="(key, value) in courseObj">
+                    <span class="text-left">{{value.name}}</span>
+                    <span class="text-left">{{value.groups}}</span>
+                    <div ng-repeat="group in value.groups">
+                        <span>{{group.name}}</span>
+                        <div ng-repeat="user in group.users">
+                            {{user.name}}
+                        </div>
+                    </div>
+                </md-list-item>
+                <!--<md-input-container>-->
+                    <!--<md-select ng-model="targetGroup" name="group" placeholder="반선택" ng-required="true">-->
+                        <!--<md-option ng-repeat="group in selectedCourse.groups" value="{{group.id}}">-->
+                            <!--{{group.name}}-->
+                        <!--</md-option>-->
+                    <!--</md-select>-->
+                    <!--<div ng-messages="signUpForm.group.$error">-->
+                        <!--<div ng-message="required">This is required.</div>-->
+                    <!--</div>-->
+                <!--</md-input-container>-->
             </md-list>
         </div>
     </div>

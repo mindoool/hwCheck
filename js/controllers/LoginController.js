@@ -18,6 +18,32 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
     };
 
 
+    $scope.groupList = [];
+
+    $scope.selectedCourse = null;
+    $scope.targetGroup = 0;
+    $scope.dummyObj = {};
+
+
+    //group 불러오기
+    $http.get(host + "/courses/0/groups", {cache: true})
+        .then(function (response) {
+            console.log(response);
+            $scope.groupList = response.data.data;
+            for (var i = 0; i < $scope.groupList.length; i++) {
+                var course = $scope.groupList[i].course;
+
+                if (typeof $scope.dummyObj[course.id]=="undefined") {
+                    course.groups = [$scope.groupList[i]];
+                    $scope.dummyObj[course.id] = course;
+                } else {
+                    $scope.dummyObj[course.id].groups.push($scope.groupList[i]);
+                }
+            }
+            console.log($scope.dummyObj);
+        });
+
+
     //과제를 출제하기 위해 호출하는 함수
     $scope.signupDialog = function (event) {
         $mdDialog.show({
@@ -26,7 +52,9 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
             parent: angular.element(document.body),
             targetEvent: event,
             clickOutsideToClose: true,
-            fullscreen: true
+            fullscreen: true,
+            scope: $scope,
+            preserveScope : true
         })
     };
 
@@ -45,8 +73,7 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
             email:"",
             password:"",
             passwordCheck:"",
-            name:"",
-            groupId:""
+            name:""
         };
 
         //$scope.getGroupId = function(id) {
@@ -54,21 +81,12 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
         //    $scope.user.groupId = id
         //};
 
-        $scope.selectedGroup='';
-        $scope.groupList = [];
-
-        $http.get(host+"/courses/0/groups")
-            .then(function (response) {
-                console.log(response);
-                $scope.groupList = response.data.data
-            });
-
         $scope.signup = function () {
             var userData = {
                 email: $scope.user.email,
                 password: $scope.user.password,
                 name: $scope.user.name,
-                groupId: $scope.user.groupId
+                groupId: $scope.targetGroup
             };
             console.log($scope.user.groupId);
             $http.post(host+'/users', userData)

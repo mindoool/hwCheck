@@ -3,9 +3,7 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
     //문제목록 불러올 때 필터링 기준 - course 기준
 
     $scope.groupList = [];
-    //$scope.selectedGroupList = $scope.selectedCourse.groups;
 
-    $scope.targetCourse = "".trim();
     $scope.selectedCourse = null;
     $scope.targetGroup = 0;
     $scope.dummyObj = {};

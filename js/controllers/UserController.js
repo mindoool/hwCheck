@@ -1,21 +1,14 @@
 app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', '$http', '$filter', function ($scope, storage, $mdMedia, $mdDialog, $http, $filter) {
 
-    //문제목록 불러올 때 필터링 기준 - course 기준
-
-    $scope.userList = [];
-
-    //유저목록 불러오기
-    $scope.getUser = function () {
-        $http.get(host+"/users", {cache: true})
-            .then(function (response) {
-                console.log(response);
-                $scope.userList = response.data.data
-            });
-    };
-
-    $scope.getUser();
-
+    //userGroup불러오기
     $scope.userGroupList = [];
+
+    $scope.groupList = [];
+
+    $scope.selectedCourse = null;
+    $scope.targetGroup = 0;
+    $scope.courseObj = {};
+    $scope.groupObj = {};
 
     $scope.getUserGroupList = function () {
         var params = {
@@ -26,6 +19,38 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
             .then(function(response) {
                 console.log(response);
                 $scope.userGroupList = response.data.data;
+                for (var i = 0; i < $scope.userGroupList.length; i++) {
+                    var course = $scope.userGroupList[i].course;
+                    var group = $scope.userGroupList[i].group;
+                    var user = $scope.userGroupList[i].user;
+
+                    if (typeof $scope.courseObj[course.id]=="undefined") {
+                        if (typeof $scope.groupObj[group.id]=="undefined") {
+                            $scope.groupObj={};
+                            group.users = [user];
+                            $scope.groupObj[group.id] = group;
+                            console.log('1')
+                        } else {
+                            $scope.groupObj[group.id].users.push(user);
+                            console.log('2')
+                        }
+                        course.groups = [$scope.groupObj];
+                        $scope.courseObj[course.id] = course;
+                        console.log(course);
+                    } else {
+                        if (typeof $scope.groupObj[group.id]=="undefined") {
+                            group.users = [user];
+                            $scope.groupObj[group.id] = group;
+                            console.log('3')
+                        } else {
+                            $scope.groupObj[group.id].users.push(user);
+                            console.log('4')
+                        }
+                        //$scope.courseObj[course.id].groups.push($scope.groupObj);
+                        console.log(course);
+                    }
+                }
+                console.log($scope.courseObj);
             });
     };
 
