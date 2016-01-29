@@ -148,11 +148,12 @@
             <md-list>
                 <md-list-item ng-repeat="(key, value) in courseObj">
                     <span class="text-left">{{value.name}}</span>
-                    <span class="text-left">{{value.groups}}</span>
                     <div ng-repeat="group in value.groups">
-                        <span>{{group.name}}</span>
-                        <div ng-repeat="user in group.users">
-                            {{user.name}}
+                        <div ng-repeat="(key, value) in group">
+                            {{value.name}}
+                            <div ng-repeat="user in value.users">
+                                {{user.name}}
+                            </div>
                         </div>
                     </div>
                 </md-list-item>
