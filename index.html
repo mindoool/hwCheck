@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link href='https://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body ng-app="HwCheck">
@@ -15,7 +16,7 @@
         <div class="center"><img src="img/logo.png" class="logo"/></div>
         <md-list>
             <md-list-item>
-                <p class="username"> 전대윤</p>
+                <p class="username"> {{user}}</p>
             </md-list-item>
             <md-list-item ng-show="!$root.token">
                 <md-button class="center" ng-href="#/login">Login</md-button>

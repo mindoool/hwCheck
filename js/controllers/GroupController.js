@@ -65,14 +65,14 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
                 })
         };
 
-        $scope.editCourse = function () {
-            var courseData = {
-                name: $scope.currentCourse.name
+        $scope.editGroup = function () {
+            var groupData = {
+                name: $scope.currentGroup.name
             };
-            $http.put(host+"/courses/"+course.id, courseData)
+            $http.put(host+"/courses/"+$scope.currentGroup.courseId+'/groups/'+$scope.currentGroup.id, groupData)
                 .then(function(response) {
                     console.log(response);
-                    $scope.getCourse();
+                    $scope.getGroup();
                     $scope.hide();
                 });
         }

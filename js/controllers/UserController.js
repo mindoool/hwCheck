@@ -24,53 +24,57 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
                     var group = $scope.userGroupList[i].group;
                     var user = $scope.userGroupList[i].user;
 
-                    if (typeof $scope.courseObj[course.id]=="undefined") {
-                        if (typeof $scope.groupObj[group.id]=="undefined") {
-                            $scope.groupObj={};
-                            group.users = [user];
-                            $scope.groupObj[group.id] = group;
+                    if (typeof $scope.groupObj[group.id]=="undefined") {
+                        if (typeof $scope.courseObj[course.id]=="undefined") {
+                            $scope.courseObj={};
+                            course.users = [user];
+                            $scope.courseObj[course.id] = course;
                             console.log('1')
                         } else {
-                            $scope.groupObj[group.id].users.push(user);
+                            $scope.courseObj[course.id].users.push(user);
                             console.log('2')
                         }
-                        course.groups = [$scope.groupObj];
-                        $scope.courseObj[course.id] = course;
-                        console.log(course);
+                        group.courses = [$scope.courseObj];
+                        $scope.groupObj[group.id] = group;
+                        console.log(group);
                     } else {
-                        if (typeof $scope.groupObj[group.id]=="undefined") {
-                            group.users = [user];
-                            $scope.groupObj[group.id] = group;
+                        if (typeof $scope.courseObj[course.id]=="undefined") {
+                            course.users = [user];
+                            $scope.courseObj[course.id] = course;
                             console.log('3')
                         } else {
-                            $scope.groupObj[group.id].users.push(user);
+                            $scope.courseObj[course.id].users.push(user);
                             console.log('4')
                         }
                         //$scope.courseObj[course.id].groups.push($scope.groupObj);
-                        console.log(course);
+                        console.log(group);
                     }
                 }
-                console.log($scope.courseObj);
+                console.log($scope.groupObj);
             });
     };
 
     $scope.getUserGroupList();
 
-    //과정 생성하는 함수
-    $scope.createCourse = function (course) {
+    //유저의 반을 수정하는 함수
+    $scope.editUserDialog = function (event, obj, id) {
         $mdDialog.show({
-            controller: CourseController,
-            templateUrl: 'templates/create-course.html',
+            controller: UserController,
+            templateUrl: 'templates/edit-user.html',
             parent: angular.element(document.body),
-            targetEvent: course,
+            targetEvent: event,
             clickOutsideToClose: true,
             fullscreen: true,
             scope:$scope,
-            course: course
+            preserveScope: true,
+            locals: {
+                obj: obj,
+                id: id
+            }
         })
     };
 
-    function CourseController($scope, $mdDialog, course) {
+    function UserController($scope, $mdDialog, obj, id) {
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -86,27 +90,17 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
             name:""
         };
 
-        $scope.currentCourse = {
-            name:course.name
+        $scope.currentUser = {
+            name:obj.name
         };
 
-        $scope.makeCourse = function () {
-            var courseData = {
-                name: $scope.course.name
-            };
-            $http.post(host+'/courses', courseData)
-                .then(function(response) {
-                    console.log(response);
-                    $scope.hide();
-                    $scope.getCourse()
-                })
-        };
+        $scope.dialogGroupObj = obj[id];
 
-        $scope.editCourse = function () {
-            var courseData = {
-                name: $scope.currentCourse.name
+        $scope.editUser = function () {
+            var userData = {
+                name: $scope.currentUser.name
             };
-            $http.put(host+"/courses/"+course.id, courseData)
+            $http.put(host+"/users/"+user.id, userData)
                 .then(function(response) {
                     console.log(response);
                     $scope.hide();
@@ -114,34 +108,5 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
                 });
         }
     }
-
-
-    //과정 수정하는 함수
-    $scope.editCourse = function (event, course) {
-        $mdDialog.show({
-            controller: CourseController,
-            templateUrl: 'templates/edit-course.html',
-            parent: angular.element(document.body),
-            targetEvent: event,
-            clickOutsideToClose: true,
-            fullscreen: true,
-            scope:$scope,
-            locals: {
-                course: course
-            }
-        })
-    };
-
-
-    //과정 삭제
-    $scope.deleteCourse = function(id) {
-        console.log('delete');
-        $http.delete(host+"/courses/"+id)
-            .then(function (response) {
-                console.log(response);
-                $scope.getCourse()
-            });
-    };
-
 
 }]);

@@ -38,7 +38,7 @@
 }
 
 .navbar {
-    background-color: skyblue;
+    background-color: pink;
     color:white;
 }
 
@@ -48,11 +48,14 @@
 
 .toolbar-name {
     min-height: 35px;
-    background-color: skyblue;
+    border-bottom: 1px solid darkgrey;
+    color : hotpink;
 }
 
 .toolbar-text {
     height: 35px;
+    color: hotpink;
+    background-color: white;
 }
 
 .give-hw {
@@ -76,4 +79,8 @@
 
 .md-button {
     min-width: 40px;
+}
+
+body {
+    color : darkgrey;
 }

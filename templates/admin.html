@@ -129,44 +129,24 @@
             </md-toolbar>
             <md-list>
                 <md-list-item layout="row">
-                    <span flex="20">이름</span>
-                    <span flex="20">과정명</span>
-                    <span flex="20">반명</span>
-                    <span flex="20"></span>
-                    <span flex="20">편집</span>
+                    <span flex="25">반명</span>
+                    <span flex="25">과정명</span>
+                    <span flex="25">학생수</span>
+                    <span flex="25">편집</span>
                 </md-list-item>
                 <md-divider></md-divider>
-                <md-list-item ng-repeat="userGroup in userGroupList">
-                    <span class="text-left"> {{userGroup.user.name}} </span>
-                    <span class="text-left"> {{userGroup.course.name}} </span>
-                    <span class="text-left"> {{userGroup.group.name}} </span>
-                    <span flex></span>
-                    <md-button ng-click="editCourse($event, course)">Edit</md-button>
-                    <md-button ng-click="deleteCourse(course.id)">Delete</md-button>
-                </md-list-item>
-            </md-list>
-            <md-list>
-                <md-list-item ng-repeat="(key, value) in courseObj">
-                    <span class="text-left">{{value.name}}</span>
-                    <div ng-repeat="group in value.groups">
-                        <div ng-repeat="(key, value) in group">
-                            {{value.name}}
-                            <div ng-repeat="user in value.users">
-                                {{user.name}}
-                            </div>
-                        </div>
-                    </div>
-                </md-list-item>
-                <!--<md-input-container>-->
-                    <!--<md-select ng-model="targetGroup" name="group" placeholder="반선택" ng-required="true">-->
-                        <!--<md-option ng-repeat="group in selectedCourse.groups" value="{{group.id}}">-->
-                            <!--{{group.name}}-->
-                        <!--</md-option>-->
-                    <!--</md-select>-->
-                    <!--<div ng-messages="signUpForm.group.$error">-->
-                        <!--<div ng-message="required">This is required.</div>-->
-                    <!--</div>-->
-                <!--</md-input-container>-->
+                <span ng-repeat="(key, value) in groupObj">
+                    <span ng-repeat="course in value.courses">
+                        <span ng-repeat="(key2, value2) in course">
+                            <md-list-item layout="row">
+                                <span flex="25">{{value.name}}</span>
+                                <span flex="25">{{value2.name}}</span>
+                                <span flex="25">{{value2.users.length}}</span>
+                                <md-button flex="25" ng-click="editUserDialog($event, groupObj, value.id)">Edit</md-button>
+                            </md-list-item>
+                        </span>
+                    </span>
+                </span>
             </md-list>
         </div>
     </div>
