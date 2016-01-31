@@ -3,8 +3,8 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
 
     $scope.groupList = [];
 
-    $scope.getGroup = function() {
-        $http.get(host + "/courses/0/groups", {cache: true})
+    $scope.getGroup = function () {
+        $http.get(host + "/courses/0/groups")
             .then(function (response) {
                 console.log(response);
                 $scope.groupList = response.data.data;
@@ -21,8 +21,8 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
             targetEvent: ev,
             clickOutsideToClose: true,
             fullscreen: true,
-            scope:$scope,
-            preserveScope : true,
+            scope: $scope,
+            preserveScope: true,
             group: ev
         })
     };
@@ -40,8 +40,8 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
 
         //서버로 부터 개별과제 받아오는 http.get이 추가되어야 함
         $scope.group = {
-            name:"",
-            courseId:""
+            name: "",
+            courseId: ""
         };
 
         $scope.currentGroup = group;
@@ -57,8 +57,8 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
             var groupData = {
                 name: $scope.group.name
             };
-            $http.post(host+'/courses/'+$scope.group.courseId+'/groups', groupData)
-                .then(function(response) {
+            $http.post(host + '/courses/' + $scope.group.courseId + '/groups', groupData)
+                .then(function (response) {
                     console.log(response);
                     $scope.getGroup();
                     $scope.hide();
@@ -69,8 +69,8 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
             var groupData = {
                 name: $scope.currentGroup.name
             };
-            $http.put(host+"/courses/"+$scope.currentGroup.courseId+'/groups/'+$scope.currentGroup.id, groupData)
-                .then(function(response) {
+            $http.put(host + "/courses/" + $scope.currentGroup.courseId + '/groups/' + $scope.currentGroup.id, groupData)
+                .then(function (response) {
                     console.log(response);
                     $scope.getGroup();
                     $scope.hide();
@@ -88,8 +88,8 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
             targetEvent: event,
             clickOutsideToClose: true,
             fullscreen: true,
-            scope:$scope,
-            preserveScope : true,
+            scope: $scope,
+            preserveScope: true,
             locals: {
                 group: group
             }
@@ -98,12 +98,12 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
 
 
     //과정 삭제
-    $scope.deleteCourse = function(id) {
+    $scope.deleteGroup = function (group) {
         console.log('delete');
-        $http.delete(host+"/courses/"+id)
+        $http.delete(host + "/courses/" + group.course.id + '/groups/' + group.id)
             .then(function (response) {
                 console.log(response);
-                $scope.getCourse()
+                $scope.getGroup()
             });
     };
 

@@ -20,7 +20,7 @@
             <div layout="row">
                 <div flex="20">
                     <md-select ng-model="selectedCourse" class="filterCourse" placeholder="과정선택">
-                        <md-option ng-repeat="(key, value) in dummyObj" ng-value="value">
+                        <md-option ng-repeat="(key, value) in courseObj" ng-value="value">
                             {{value.name}}
                         </md-option>
                     </md-select>
@@ -112,7 +112,7 @@
                     <span flex="25" class="text-left"> {{group.name}} </span>
                     <span flex="25" class="text-left"> {{group.course.name}}</span>
                     <md-button flex="25" ng-click="editGroupDialog($event, group)">Edit</md-button>
-                    <md-button flex="25" ng-click="deleteGroup(course.id)">Delete</md-button>
+                    <md-button flex="25" ng-click="deleteGroup(group)">Delete</md-button>
                 </md-list-item>
                 <md-list-item>
                     <md-button class="center" ng-click="createGroupDialog($event)">+</md-button>

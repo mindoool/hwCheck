@@ -6,7 +6,7 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
 
     $scope.selectedCourse = null;
     $scope.targetGroup = 0;
-    $scope.dummyObj = {};
+    $scope.courseObj = {};
 
 
     //group 불러오기
@@ -17,14 +17,14 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
             for (var i = 0; i < $scope.groupList.length; i++) {
                 var course = $scope.groupList[i].course;
 
-                if (typeof $scope.dummyObj[course.id]=="undefined") {
+                if (typeof $scope.courseObj[course.id]=="undefined") {
                     course.groups = [$scope.groupList[i]];
-                    $scope.dummyObj[course.id] = course;
+                    $scope.courseObj[course.id] = course;
                 } else {
-                    $scope.dummyObj[course.id].groups.push($scope.groupList[i]);
+                    $scope.courseObj[course.id].groups.push($scope.groupList[i]);
                 }
             }
-            console.log($scope.dummyObj);
+            console.log($scope.courseObj);
         });
 
     //문제목록 불러오는 거
@@ -32,6 +32,10 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
         "date1": new Date(),
         "date2": new Date()
     };
+
+    $scope.dateObj = {};
+    $scope.groupObj = {};
+    $scope.problemObj = {};
 
     $scope.getHwList = function () {
         var params = {
@@ -42,16 +46,45 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
             .then(function (response) {
                 $scope.dateList = [];
                 $scope.problemGroupList = [];
-                console.log(response.data.data);
-                console.log($scope.datepicker.date2);
-                console.log(new Date($scope.datepicker.date2));
-                console.log(params);
                 $scope.problemList = response.data.data;
+
                 for (var i = 0; i < $scope.problemList.length; i++) {
                     if ($scope.dateList.indexOf($scope.problemList[i].date) < 0) {
                         $scope.dateList.push($scope.problemList[i].date);
                     }
                 }
+
+                //for (var i = 0; i < $scope.problemList.length; i++) {
+                //    var date = $scope.problemList[i].date;
+                //    var group = $scope.userGroupList[i].group;
+                //
+                //    if (typeof $scope.groupObj[group.id]=="undefined") {
+                //        if (typeof $scope.courseObj[course.id]=="undefined") {
+                //            $scope.courseObj={};
+                //            course.users = [user];
+                //            $scope.courseObj[course.id] = course;
+                //            console.log('1')
+                //        } else {
+                //            $scope.courseObj[course.id].users.push(user);
+                //            console.log('2')
+                //        }
+                //        group.courses = [$scope.courseObj];
+                //        $scope.groupObj[group.id] = group;
+                //        console.log(group);
+                //    } else {
+                //        if (typeof $scope.courseObj[course.id]=="undefined") {
+                //            course.users = [user];
+                //            $scope.courseObj[course.id] = course;
+                //            console.log('3')
+                //        } else {
+                //            $scope.courseObj[course.id].users.push(user);
+                //            console.log('4')
+                //        }
+                //        //$scope.courseObj[course.id].groups.push($scope.groupObj);
+                //        console.log(group);
+                //    }
+                //}
+
                 for (var i = 0; i < $scope.problemList.length; i++) {
                     if ($scope.problemGroupList.indexOf($scope.problemList[i].group.name) < 0) {
                         $scope.problemGroupList.push($scope.problemList[i].group.name);

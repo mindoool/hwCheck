@@ -1,4 +1,4 @@
-<md-dialog flex="30">
+<md-dialog flex="50">
     <form name="editUserForm" ng-submit="editUser()">
         <md-content class="autoScroll">
             <md-list-item layout="row">
@@ -15,6 +15,11 @@
                             <span flex="25">{{user.name}}</span>
                             <span flex="25">{{dialogGroupObj.name}}</span>
                             <span flex="25">{{value.name}}</span>
+                            <md-select ng-model="selectedCourse" class="filterCourse" placeholder="과정선택">
+                                <md-option ng-repeat="(key, value) in dummyObj" ng-value="value">
+                                    {{value.name}}
+                                </md-option>
+                            </md-select>
                         </md-list-item>
                     </span>
                 </span>

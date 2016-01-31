@@ -11,9 +11,18 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
         $http.post(host+'/users/login', $scope.user)
             .then(function (response) {
                 storage.set('token', response.data.token);
+                storage.set('userData', response.data.data);
+                console.log(response.data);
                 $scope.$root.token = response.data.token;
                 $http.defaults.headers.common.Authorization = storage.get('token');
-                $state.go('index');
+
+                if (response.data.data.isAdmin) {
+                    $state.go('admin');
+                } else {
+                    $state.go('index');
+                }
+
+
             });
     };
 
@@ -22,7 +31,7 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
 
     $scope.selectedCourse = null;
     $scope.targetGroup = 0;
-    $scope.dummyObj = {};
+    $scope.courseObj = {};
 
 
     //group 불러오기
@@ -33,14 +42,14 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
             for (var i = 0; i < $scope.groupList.length; i++) {
                 var course = $scope.groupList[i].course;
 
-                if (typeof $scope.dummyObj[course.id]=="undefined") {
+                if (typeof $scope.courseObj[course.id]=="undefined") {
                     course.groups = [$scope.groupList[i]];
-                    $scope.dummyObj[course.id] = course;
+                    $scope.courseObj[course.id] = course;
                 } else {
-                    $scope.dummyObj[course.id].groups.push($scope.groupList[i]);
+                    $scope.courseObj[course.id].groups.push($scope.groupList[i]);
                 }
             }
-            console.log($scope.dummyObj);
+            console.log($scope.courseObj);
         });
 
 
