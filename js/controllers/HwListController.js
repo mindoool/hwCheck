@@ -1,5 +1,19 @@
-app.controller('HwListController', ['$scope', 'storage','$mdMedia', '$mdDialog', function ($scope, storage, $mdMedia, $mdDialog) {
+app.controller('HwListController', ['$scope', 'storage','$mdMedia', '$mdDialog','$http', function ($scope, storage, $mdMedia, $mdDialog, $http) {
     $scope.hwList = storage.get('hwList') || [];
+
+
+    $scope.groupList = [];
+
+    $scope.getGroup = function () {
+        $http.get(host + "/courses/0/groups")
+            .then(function (response) {
+                console.log(response);
+                $scope.groupList = response.data.data;
+            });
+    };
+
+    $scope.getGroup();
+
 
     //서버에서 과제목록을 받아오는 함수
     $scope.getHwList = function () {
