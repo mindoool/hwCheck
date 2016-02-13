@@ -19,17 +19,23 @@
                                 <div flex="33">
                                     {{content.headers[2]}}
                                 </div>
+                                <div flex="33">
+                                    {{content.headers[3]}}
+                                </div>
                             </div>
                             <div layout="row" ng-if="$index!=0">
                                 <li>
-                                    <md-input-container flex="33">
+                                    <md-input-container flex="25">
                                         <input type="text" value="{{content.data[0]}}" required/>
                                     </md-input-container>
-                                    <md-input-container flex="33">
+                                    <md-input-container flex="25">
                                         <input type="text" value="{{content.data[1]}}" required/>
                                     </md-input-container>
-                                    <md-input-container flex="33">
+                                    <md-input-container flex="25">
                                         <input type="text" value="{{content.data[2]}}" required/>
+                                    </md-input-container>
+                                    <md-input-container flex="25">
+                                        <input type="text" value="{{content.data[3]}}" required/>
                                     </md-input-container>
                                 </li>
                             </div>

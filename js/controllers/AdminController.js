@@ -37,20 +37,20 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
     $scope.groupObj = {};
     $scope.problemObj = {};
 
-    $scope.getHwList = function () {
+    $scope.getProblemList = function () {
         var params = {
             "date1": $filter('date')(new Date($scope.datepicker.date1), 'yyyy-MM-dd'),
             "date2": $filter('date')(new Date($scope.datepicker.date2), 'yyyy-MM-dd'),
         };
         $http.get(host + "/groups/" + $scope.targetGroup + "/problems", {params: params}, {cache: true})
             .then(function (response) {
-                $scope.dateList = [];
+                $scope.dateList2 = [];
                 $scope.problemGroupList = [];
                 $scope.problemList = response.data.data;
 
                 for (var i = 0; i < $scope.problemList.length; i++) {
-                    if ($scope.dateList.indexOf($scope.problemList[i].date) < 0) {
-                        $scope.dateList.push($scope.problemList[i].date);
+                    if ($scope.dateList2.indexOf($scope.problemList[i].date) < 0) {
+                        $scope.dateList2.push($scope.problemList[i].date);
                     }
                 }
 
@@ -93,8 +93,18 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
             });
     };
 
+    //Homework Table에서 과제 가져오기
+    $scope.getHwList = function () {
+        var params = {
+            "date1": $filter('date')(new Date($scope.datepicker.date1), 'yyyy-MM-dd'),
+            "date2": $filter('date')(new Date($scope.datepicker.date2), 'yyyy-MM-dd'),
+        };
+        $http.get(host + "/groups/" + $scope.targetGroup + "/homeworks", {params: params}, {cache: true})
+            .then(function (response) {
+                $scope.homeworkObj = response.data.data;
+            });
+    };
     $scope.getHwList();
-
 
     //과제를 출제하기 위해 호출하는 함수
     $scope.giveHw = function (hw) {
@@ -148,18 +158,22 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
 
 
     //결과 확인을 누르면 개별 결과를 볼 수 있는 함수
-    $scope.getHw = function (hw) {
+    $scope.getResult = function (hw, homework) {
+        console.log(homework);
         $mdDialog.show({
             controller: HwResultController,
             templateUrl: 'templates/hw-result.html',
             parent: angular.element(document.body),
             targetEvent: hw,
             clickOutsideToClose: true,
-            fullscreen: true
+            fullscreen: true,
+            locals: {
+                homework: homework
+            }
         })
     };
 
-    function HwResultController($scope, $mdDialog) {
+    function HwResultController($scope, $mdDialog, homework) {
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -170,17 +184,17 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
             $mdDialog.hide(answer);
         };
 
+        $scope.currentHomework = homework;
+
         //서버로 부터 개별과제 받아오는 http.get이 추가되어야 함
-        $scope.hwResult = {
-            name: "",
-            date: "",
-            content: ""
+        var params = {
+            "homeworkId": homework.id
         };
-
-        $scope.userAnswer = '';
-        $scope.answerList = ['맞음', '틀렸는데 고침', '틀렸는데 모름', '모름'];
-
-
+        $http.get(host + "/users-answers", {params: params}, {cache: true})
+            .then(function (response) {
+                console.log(response);
+                $scope.userAnswerObj = response.data.data;
+            });
     }
 
 }]);
