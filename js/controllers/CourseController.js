@@ -1,5 +1,6 @@
-app.controller('CourseController', ['$scope', 'storage', '$mdMedia', '$mdDialog', '$http', '$filter', function ($scope, storage, $mdMedia, $mdDialog, $http, $filter) {
+app.controller('CourseController', ['$scope', 'storage', '$mdMedia', '$mdDialog', '$http', '$filter', 'Obj', function ($scope, storage, $mdMedia, $mdDialog, $http, $filter, Obj) {
     //과정 생성하는 함수
+    $scope.Obj = Obj;
 
     $scope.courseList = [];
 
@@ -8,6 +9,7 @@ app.controller('CourseController', ['$scope', 'storage', '$mdMedia', '$mdDialog'
             .then(function (response) {
                 console.log(response);
                 $scope.courseList = response.data.data;
+                Obj.rootCourseList = $scope.courseList;
             });
     };
 
@@ -55,6 +57,7 @@ app.controller('CourseController', ['$scope', 'storage', '$mdMedia', '$mdDialog'
                 .then(function(response) {
                     console.log(response);
                     $scope.getCourse();
+
                     $scope.hide();
                 })
         };

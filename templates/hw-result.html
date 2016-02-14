@@ -11,9 +11,9 @@
         </div>
         <div layout="row">
             <div flex="5"></div>
-            <div ng-repeat="(key, value) in userAnswerObj" flex="90">
-                {{value.name}}
-                <div ng-repeat="problem in value.problems">
+            <div ng-repeat="userAnswer in userAnswerList" flex="90">
+                {{userAnswer.name}}
+                <div ng-repeat="problem in userAnswer.problems">
                     {{problem.name}}
                 </div>
             </div>

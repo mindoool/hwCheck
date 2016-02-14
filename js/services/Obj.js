@@ -1,6 +1,8 @@
 app.service('Obj', [function () {
-    var rootGroupObj = {};
-    var rootCourseObj = {};
+    var rootGroupList = {};
+    var rootCourseList = {};
+
+    this.rootCourseList = [];
 
     this.setGroupObj = function(groupObj) {
         rootGroupObj = groupObj;
@@ -10,11 +12,11 @@ app.service('Obj', [function () {
         return rootGroupObj;
     };
 
-    this.setCourseObj = function(courseObj) {
-        rootCourseObj = courseObj;
+    this.setCourseList = function(courseList) {
+        rootCourseList = courseList;
     };
 
-    this.getCourseObj = function() {
-        return rootCourseObj;
+    this.getCourseList = function() {
+        return rootCourseList;
     };
 }]);

@@ -1,4 +1,4 @@
-app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog', '$http', function ($scope, storage, $mdMedia, $mdDialog, $http) {
+app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog', '$http', 'Obj', function ($scope, storage, $mdMedia, $mdDialog, $http, Obj) {
     //과정 생성하는 함수
 
     $scope.groupList = [];
@@ -8,6 +8,7 @@ app.controller('GroupController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
             .then(function (response) {
                 console.log(response);
                 $scope.groupList = response.data.data;
+                $scope.commonCourseList = Obj.getCourseList();
             });
     };
 

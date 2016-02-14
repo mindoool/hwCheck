@@ -193,7 +193,7 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
         $http.get(host + "/users-answers", {params: params}, {cache: true})
             .then(function (response) {
                 console.log(response);
-                $scope.userAnswerObj = response.data.data;
+                $scope.userAnswerList = response.data.data;
             });
     }
 
