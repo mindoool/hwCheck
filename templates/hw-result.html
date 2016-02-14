@@ -11,10 +11,16 @@
         </div>
         <div layout="row">
             <div flex="5"></div>
-            <div ng-repeat="userAnswer in userAnswerList" flex="90">
+            <div flex="20">
+                <div> 문제명 </div> <br>
+                <div ng-repeat="problem in userAnswerList[0].problems">
+                    {{$index +1}}. {{problem.name}}
+                </div>
+            </div>
+            <div ng-repeat="userAnswer in userAnswerList" flex="20">
                 {{userAnswer.name}}
                 <div ng-repeat="problem in userAnswer.problems">
-                    {{problem.name}}
+                    {{problem.answer.name}}
                 </div>
             </div>
             <div flex="5"></div>
