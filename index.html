@@ -16,7 +16,7 @@
         <div class="center"><img src="img/logo.png" class="logo"/></div>
         <md-list>
             <md-list-item>
-                <p class="username"> {{user}}</p>
+                <p class="username"> {{$root.user.name}}</p>
             </md-list-item>
             <md-list-item ng-show="!$root.token">
                 <md-button class="center" ng-href="#/login">Login</md-button>
@@ -24,7 +24,7 @@
             <md-list-item ng-show="$root.token">
                 <md-button class="center" ng-click="$root.logout()">Logout</md-button>
             </md-list-item>
-            <md-list-item>
+            <md-list-item ng-show="$root.user.isAdmin == 1">
                 <md-button class="center" ng-href="#/admin"> 어드민 </md-button>
             </md-list-item>
             <md-list-item>
