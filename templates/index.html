@@ -34,7 +34,7 @@
                 </div>
                 <div flex="20">
                     <span ng-if="hw.userHomeworkRelation.isSubmitted == 0">
-                        <md-button class="md-raised md-block" ng-click="doHw($event, hw)"> 미제출 </md-button>
+                        <md-button ng-click="doHw($event, hw)"> 미제출</md-button>
                     </span>
                     <span ng-if="hw.userHomeworkRelation.isSubmitted == 1"> 제출완료 </span>
                 </div>
@@ -85,13 +85,4 @@
             </div>
         </span>
     </div>
-
-    <div flex>
-        <md-button class="md-raised md-block" ng-click="doHw($event)"> 과제제출 </md-button>
-    </div>
-
-    <div flex>
-
-    </div>
-
 </div>

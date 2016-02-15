@@ -15,7 +15,7 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
                 console.log(response.data);
                 $scope.$root.token = response.data.token;
                 $http.defaults.headers.common.Authorization = storage.get('token');
-
+                $scope.$root.user = response.data.data;
                 if (response.data.data.isAdmin) {
                     $state.go('admin');
                 } else {
