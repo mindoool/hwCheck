@@ -190,7 +190,7 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
         var params = {
             "homeworkId": homework.id
         };
-        $http.get(host + "/users-answers", {params: params}, {cache: true})
+        $http.get(host + "/users-answers", {params: params})
             .then(function (response) {
                 console.log(response);
                 $scope.userAnswerList = response.data.data;

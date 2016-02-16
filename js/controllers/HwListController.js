@@ -40,32 +40,26 @@ app.controller('HwListController', ['$scope', 'storage','$mdMedia', '$mdDialog',
         $scope.answer = function(answer) {
             $mdDialog.hide(answer);
         };
-        $scope.hwContent = {
-            name:"",
-            date:"",
-            content:""
-        };
-
         $scope.userAnswer='';
         $scope.answerOptions = ['맞음', '틀렸는데 고침', '틀렸는데 모름', '모름'];
-        $scope.answerList=[0,0,0,0,0,0,0,0,0,0,0,00,0,0,0,0,0,0,0,0,0,0,0,0,0];
-
         $http.get(host + "/homeworks/"+homework.id+"/problems")
             .then(function (response) {
-                console.log(response);
                 $scope.problemList = response.data.data.problems;
                 $scope.homeworkObj = response.data.data.homework;
-                console.log(response.data.data)
+                for (var i=0; i < $scope.problemList.length; i++) {
+                    $scope.problemList[i]['answer'] = "";
+                };
+                console.log($scope.problemList);
             });
 
         //과제 입력후 제출하기 버튼을 누르면 서버에 데이터 전송하는 함수
         $scope.submit = function() {
-            var hwData = {
-                name:$scope.hwContent.name,
-                date:$scope.hwContent.date,
-                content:$scope.hwContent.content
+            console.log($scope.problemList);
+            var answers = {
+                problemAnswers : $scope.problemList,
+                homeworkId : homework.id
             };
-            $http.post('http://localhost:12080/api/do-hw',hwData)
+            $http.post(host+"/answers", answers)
                 .then(function(response) {
                     console.log(response);
                     $scope.hide()

@@ -20,16 +20,13 @@
             <div ng-repeat="userAnswer in userAnswerList" flex="20">
                 {{userAnswer.name}}
                 <div ng-repeat="problem in userAnswer.problems">
-                    {{problem.answer.name}}
+                    {{problem.answer.content}}
                 </div>
             </div>
             <div flex="5"></div>
         </div>
         <div flex>
             <div layout="row">
-                <div flex="50">
-                    <md-button type="submit" class="md-raised md-block"> Submit</md-button>
-                </div>
                 <div flex="50">
                     <md-button class="md-raised md-block" ng-click="cancel()"> Close</md-button>
                 </div>
