@@ -15,13 +15,14 @@
                 </div>
                 <div flex="30">
                     <md-input-container required>
-                        <md-select ng-model="problem.answer" placeholder="Select Answer" requried>
-                            <md-option ng-repeat="option in answerOptions">
+                        <md-select ng-model="problem.answer.content" placeholder="Select Answer" value="{{problem.answer.content}}" requried>
+                            <md-option ng-repeat="option in answerOptions" >
                                 {{option}}
                             </md-option>
                         </md-select>
                     </md-input-container>
                 </div>
+                <div>{{problem.answer.content}}</div>
             </div>
             <div flex>
                 <div layout="row">
