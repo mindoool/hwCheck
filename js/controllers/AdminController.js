@@ -29,8 +29,8 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
 
     //문제목록 불러오는 거
     $scope.datepicker = {
-        "date1": new Date(),
-        "date2": new Date()
+        "date1": new Date(Date.now()-7*24*60*60*1000),
+        "date2": new Date(Date.now()+7*24*60*60*1000)
     };
 
     $scope.dateObj = {};

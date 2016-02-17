@@ -62,14 +62,23 @@ app.controller('HwListController', ['$scope', 'storage','$mdMedia', '$mdDialog',
             .then(function (response) {
                 console.log(response);
                 $scope.problemList = response.data.data;
-                //for (var i=0; i < $scope.problemList.length; i++) {
-                //    $scope.problemList[i]['aaanswer'] = "";
-                //};
+                for (var i=0; i < $scope.problemList.length; i++) {
+                    if (!$scope.problemList[i]['answer']) {
+                        $scope.problemList[i]['answer'] = {'content':""};
+                    }
+                };
                 console.log($scope.problemList);
             });
 
-        //과제 입력후 제출하기 버튼을 누르면 서버에 데이터 전송하는 함수
+        //답안 입력후 제출하기 버튼을 누르면 서버에 데이터 전송하는 함수
         $scope.submit = function() {
+            for (var i in $scope.problemList) {
+                if (!$scope.problemList[i].answer.content) {
+                    alert('입력하지 않은 답안이 존재합니다.');
+                    return;
+                }
+            }
+
             console.log($scope.problemList);
             var answers = {
                 problemAnswers : $scope.problemList,
@@ -78,7 +87,31 @@ app.controller('HwListController', ['$scope', 'storage','$mdMedia', '$mdDialog',
             $http.post(host+"/answers", answers)
                 .then(function(response) {
                     console.log(response);
-                    $scope.hide()
+                    $scope.hide();
+                    console.log(homework);
+                    homework.userHomeworkRelation.isSubmitted = 1
+                });
+        };
+
+        //답안 입력후 수정하기 버튼을 누르면 서버에 데이터 전송하는 함수
+        $scope.submit = function() {
+            for (var i in $scope.problemList) {
+                if (!$scope.problemList[i].answer.content) {
+                    alert('입력하지 않은 답안이 존재합니다.');
+                    return;
+                }
+            }
+
+            console.log($scope.problemList);
+            var answers = {
+                problemAnswers : $scope.problemList,
+                homeworkId : homework.id
+            };
+            $http.put(host+"/answers", answers)
+                .then(function(response) {
+                    console.log(response);
+                    $scope.hide();
+                    console.log(homework);
                 });
         };
     }
