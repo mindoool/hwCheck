@@ -5,7 +5,7 @@ app.controller('HwListController', ['$scope', 'storage','$mdMedia', '$mdDialog',
         var params = {
             "userId": $rootScope.user.id
         };
-        $http.get('http://localhost:12080/api/user-homework-relations', {params:params})
+        $http.get(host + '/user-homework-relations', {params:params})
             .then(function(response) {
                 console.log(response);
                 $scope.hwList = response.data.data;

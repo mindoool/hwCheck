@@ -1,1 +1,1 @@
-host = "http://localhost:12080/api";
+host = "http://hwcheck-1224.appspot.com/api";

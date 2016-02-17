@@ -5,59 +5,29 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
 
     $scope.groupList = [];
 
-    $scope.selectedCourse = null;
+    $scope.selectedGroup = null;
     $scope.targetGroup = 0;
     $scope.courseObj = {};
     $scope.groupObj = {};
+    $scope.groupCourseUserList = [];
+
 
     $scope.getUserGroupList = function () {
         var params = {
-            userId:0,
-            groupId:0
+            userId: 0,
+            groupId: 0
         };
-        $http.get(host+"/user-group-relations", {params: params}, {cache: true})
-            .then(function(response) {
-                console.log(response);
-                $scope.userGroupList = response.data.data;
-                for (var i = 0; i < $scope.userGroupList.length; i++) {
-                    var course = $scope.userGroupList[i].course;
-                    var group = $scope.userGroupList[i].group;
-                    var user = $scope.userGroupList[i].user;
-
-                    if (typeof $scope.groupObj[group.id]=="undefined") {
-                        if (typeof $scope.courseObj[course.id]=="undefined") {
-                            $scope.courseObj={};
-                            course.users = [user];
-                            $scope.courseObj[course.id] = course;
-                            console.log('1')
-                        } else {
-                            $scope.courseObj[course.id].users.push(user);
-                            console.log('2')
-                        }
-                        group.courses = [$scope.courseObj];
-                        $scope.groupObj[group.id] = group;
-                        console.log(group);
-                    } else {
-                        if (typeof $scope.courseObj[course.id]=="undefined") {
-                            course.users = [user];
-                            $scope.courseObj[course.id] = course;
-                            console.log('3')
-                        } else {
-                            $scope.courseObj[course.id].users.push(user);
-                            console.log('4')
-                        }
-                        //$scope.courseObj[course.id].groups.push($scope.groupObj);
-                        console.log(group);
-                    }
-                }
-                console.log($scope.groupObj);
+        $http.get(host + "/user-group-relations", {params: params}, {cache: true})
+            .then(function (response) {
+                $scope.groupCourseUserList = response.data.data;
+                console.log($scope.groupCourseUserList);
             });
     };
 
     $scope.getUserGroupList();
 
     //유저의 반을 수정하는 함수
-    $scope.editUserDialog = function (event, obj, id) {
+    $scope.editUserDialog = function (event, obj) {
         $mdDialog.show({
             controller: UserController,
             templateUrl: 'templates/edit-user.html',
@@ -65,16 +35,15 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
             targetEvent: event,
             clickOutsideToClose: true,
             fullscreen: true,
-            scope:$scope,
+            scope: $scope,
             preserveScope: true,
             locals: {
-                obj: obj,
-                id: id
+                obj: obj
             }
         })
     };
 
-    function UserController($scope, $mdDialog, obj, id) {
+    function UserController($scope, $mdDialog, obj) {
         $scope.hide = function () {
             $mdDialog.hide();
         };
@@ -85,28 +54,35 @@ app.controller('UserController', ['$scope', 'storage', '$mdMedia', '$mdDialog', 
             $mdDialog.hide(answer);
         };
 
-        //서버로 부터 개별과제 받아오는 http.get이 추가되어야 함
-        $scope.course = {
-            name:""
-        };
-
         $scope.currentUser = {
-            name:obj.name
+            name: obj.name
         };
 
-        $scope.dialogGroupObj = obj[id];
+        $scope.dialogGroupCourseUserObj = obj;
 
-        $scope.editUser = function () {
+        $scope.getGroup = function () {
+            $http.get(host + "/courses/" + $scope.dialogGroupCourseUserObj.course.id + "/groups")
+                .then(function (response) {
+                    console.log(response);
+                    $scope.groupList = response.data.data;
+                });
+        };
+
+        $scope.getGroup();
+
+        $scope.editGroupCourseUser = function (user) {
             var userData = {
-                name: $scope.currentUser.name
+                userId : user.id,
+                groupId: user.selectedGroupId
             };
-            $http.put(host+"/users/"+user.id, userData)
-                .then(function(response) {
+            $http.put(host + "/user-group-relations/" + user.userGroup.id, userData)
+                .then(function (response) {
                     console.log(response);
                     $scope.hide();
-                    $scope.getCourse()
+                    $scope.getUserGroupList()
                 });
         }
     }
 
-}]);
+}])
+;
