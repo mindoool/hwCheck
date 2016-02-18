@@ -95,4 +95,14 @@ body {
 
 .hw-list-title {
     color: #333333;
+    margin-left: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid darkgrey;
+}
+
+.hw-dialog-title {
+    margin-top: 10px;
+    border-bottom: 1px solid darkgrey;
+    padding-bottom: 10px;
+    color: #333333;
 }

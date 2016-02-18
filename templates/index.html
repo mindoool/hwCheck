@@ -142,7 +142,7 @@
             <div flex="33"></div>
         </div>
         <span ng-repeat="hw in hwList | filter:hwList.length!==0">
-            <div layout="row" ng-if="hw.date < today">
+            <div layout="row" ng-if="hw.date < today" class="top">
                 <div flex="5"></div>
                 <div flex="25">
                     <span>{{hw.name}}</span>
