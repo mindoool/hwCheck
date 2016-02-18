@@ -82,5 +82,17 @@
 }
 
 body {
-    color : darkgrey;
+    color : #808080;
+}
+
+.left {
+    margin-left: 10px;
+}
+
+.hw-list {
+    margin-top: 15px;
+}
+
+.hw-list-title {
+    color: #333333;
 }

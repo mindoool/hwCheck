@@ -15,7 +15,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('index', {
             url:'/',
             templateUrl: 'templates/index.html',
-            controller: "HwListController"
+            controller: "HwListController",
+            userOnly: true
         })
         .state('admin', {
             url:'/admin',
@@ -34,6 +35,12 @@ app.run(function($http, storage, $rootScope, $state) {
         if( toState.adminOnly ){
             if ($rootScope.user.isAdmin == false ) {
                 $state.go('index');
+                event.preventDefault();
+            }
+        }
+        if( toState.userOnly ){
+            if ($rootScope.token == false ) {
+                $state.go('login');
                 event.preventDefault();
             }
         }
