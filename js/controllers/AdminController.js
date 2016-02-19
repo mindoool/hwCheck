@@ -11,10 +11,6 @@ app.controller('AdminController', ['$scope', 'storage', '$mdMedia', '$mdDialog',
         "date2": new Date(Date.now()+7*24*60*60*1000)
     };
 
-    $scope.dateObj = {};
-    $scope.groupObj = {};
-    $scope.problemObj = {};
-
     $scope.getProblemList = function () {
         var params = {
             "date1": $filter('date')(new Date($scope.datepicker.date1), 'yyyy-MM-dd'),
