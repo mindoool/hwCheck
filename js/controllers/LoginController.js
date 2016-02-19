@@ -1,4 +1,6 @@
-app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', 'storage', '$state', '$rootScope', function ($scope, $mdDialog, $mdMedia, $http, storage, $state, $rootScope) {
+app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', 'storage', '$state', '$rootScope', 'CommonData', function ($scope, $mdDialog, $mdMedia, $http, storage, $state, $rootScope, CommonData) {
+    $scope.commonData = CommonData;
+
     $scope.data = [];
 
     $scope.user = {
@@ -21,37 +23,8 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
                 } else {
                     $state.go('hwlist');
                 }
-
-
             });
     };
-
-
-    $scope.groupList = [];
-
-    $scope.selectedCourse = null;
-    $scope.targetGroup = 0;
-    $scope.courseObj = {};
-
-
-    //group 불러오기
-    $http.get(host + "/courses/0/groups", {cache: true})
-        .then(function (response) {
-            console.log(response);
-            $scope.groupList = response.data.data;
-            for (var i = 0; i < $scope.groupList.length; i++) {
-                var course = $scope.groupList[i].course;
-
-                if (typeof $scope.courseObj[course.id]=="undefined") {
-                    course.groups = [$scope.groupList[i]];
-                    $scope.courseObj[course.id] = course;
-                } else {
-                    $scope.courseObj[course.id].groups.push($scope.groupList[i]);
-                }
-            }
-            console.log($scope.courseObj);
-        });
-
 
     //과제를 출제하기 위해 호출하는 함수
     $scope.signupDialog = function (event) {
@@ -84,6 +57,11 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
             passwordCheck:"",
             name:""
         };
+
+        //service에서 가져오기
+        $scope.courseGroupObj = $scope.commonData.getCourseGroupObj();
+        $scope.selectedCourse = null;
+        $scope.targetGroup = 0;
 
         //$scope.getGroupId = function(id) {
         //    console.log(id);
