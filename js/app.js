@@ -45,7 +45,7 @@ app.run(function($http, storage, $rootScope, $state) {
             }
         }
         if( toState.userOnly ){
-            if ($rootScope.token == false ) {
+            if (!$rootScope.token) {
                 $state.go('login');
                 event.preventDefault();
             }
