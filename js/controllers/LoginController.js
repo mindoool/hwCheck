@@ -1,8 +1,6 @@
 app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', 'storage', '$state', '$rootScope', 'CommonData', function ($scope, $mdDialog, $mdMedia, $http, storage, $state, $rootScope, CommonData) {
     $scope.commonData = CommonData;
 
-    $scope.data = [];
-
     $scope.user = {
         email: "",
         password: ""
@@ -11,7 +9,7 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
     $scope.login = function () {
         console.log('hi');
         $http.post(host+'/users/login', $scope.user)
-            .then(function (response) {
+            .then(function successCallback(response) {
                 storage.set('token', response.data.token);
                 storage.set('userData', response.data.data);
                 console.log(response.data);
@@ -23,6 +21,8 @@ app.controller('LoginController', ['$scope', '$mdDialog', '$mdMedia', '$http', '
                 } else {
                     $state.go('hwlist');
                 }
+            }, function errorCallback(response) {
+                alert('이메일 주소나 비밀번호가 잘못되었습니다.');
             });
     };
 

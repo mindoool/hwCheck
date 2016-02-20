@@ -18,6 +18,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
             controller: "HwListController",
             userOnly: true
         })
+        .state('user', {
+            url:'/user',
+            templateUrl: 'templates/user.html',
+            controller:"UserEditController",
+            userOnly: true
+        })
         .state('admin', {
             url:'/admin',
             templateUrl: 'templates/admin.html',

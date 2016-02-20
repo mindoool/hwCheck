@@ -21,6 +21,10 @@
     margin-top: 10px;
 }
 
+.username {
+    color : black;
+}
+
 .text-center {
     margin: auto;
     width: 80%;
