@@ -27,7 +27,7 @@
             <md-list-item ng-show="$root.user.isAdmin == 1">
                 <md-button class="center" ng-href="#/admin"> 어드민 </md-button>
             </md-list-item>
-            <md-list-item>
+            <md-list-item ng-show="$root.token">
                 <md-button class="center" ng-href="#/"> 메인화면 </md-button>
             </md-list-item>
         </md-list>
